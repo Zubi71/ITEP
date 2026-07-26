@@ -56,4 +56,4 @@ Not built yet — reference designs still live in `stitch-export/`:
 
 - Public marketing landing page (`stitch-export/05-itep-center-landing-page`)
 - Real Stripe payments for the course marketplace (currently mocked, see Milestone 2 above)
-- Actual deployment (Vercel or otherwise) — the app now runs on production-grade Postgres but isn't hosted anywhere public yet, and isn't even a git repo
+- Actual deployment (Vercel or otherwise) — the app now runs on production-grade Postgres and is on GitHub, but isn't hosted anywhere public yet
