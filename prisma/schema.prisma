@@ -1,0 +1,235 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// --- Auth (NextAuth Prisma adapter shape) ---
+
+model User {
+  id            String        @id @default(cuid())
+  name          String?
+  email         String        @unique
+  emailVerified DateTime?
+  image         String?
+  passwordHash  String?
+  studentId     String?       @unique
+  accounts      Account[]
+  sessions      Session[]
+  attempts      Attempt[]
+  purchases     Purchase[]
+  certificates  Certificate[]
+  createdAt     DateTime      @default(now())
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// --- Exam engine ---
+
+enum Skill {
+  GRAMMAR
+  LISTENING
+  READING
+  WRITING
+  SPEAKING
+}
+
+enum AttemptStatus {
+  IN_PROGRESS
+  SUBMITTED
+  EXPIRED
+}
+
+model Exam {
+  id           String        @id @default(cuid())
+  title        String
+  description  String?
+  category     Skill?
+  durationMin  Int
+  difficulty   String
+  sections     Section[]
+  attempts     Attempt[]
+  certificates Certificate[]
+  createdAt    DateTime      @default(now())
+}
+
+model Section {
+  id        String     @id @default(cuid())
+  examId    String
+  exam      Exam       @relation(fields: [examId], references: [id], onDelete: Cascade)
+  title     String
+  skill     Skill
+  order     Int
+  passage   String?
+  questions Question[]
+}
+
+model Question {
+  id        String   @id @default(cuid())
+  sectionId String
+  section   Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  prompt    String
+  order     Int
+  hint      String?
+  choices   Choice[]
+  answers   Answer[]
+}
+
+model Choice {
+  id         String   @id @default(cuid())
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  label      String
+  text       String
+  isCorrect  Boolean  @default(false)
+  answers    Answer[]
+}
+
+model Attempt {
+  id           String        @id @default(cuid())
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  examId       String
+  exam         Exam          @relation(fields: [examId], references: [id])
+  status       AttemptStatus @default(IN_PROGRESS)
+  startedAt    DateTime      @default(now())
+  submittedAt  DateTime?
+  timeLimitSec Int
+  currentIndex Int           @default(0)
+  scorePct     Float?
+  answers      Answer[]
+  flags        AttemptFlag[]
+  certificate  Certificate?
+}
+
+model Answer {
+  id         String   @id @default(cuid())
+  attemptId  String
+  attempt    Attempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id])
+  choiceId   String?
+  choice     Choice?  @relation(fields: [choiceId], references: [id])
+  isCorrect  Boolean?
+  answeredAt DateTime @updatedAt
+
+  @@unique([attemptId, questionId])
+}
+
+model AttemptFlag {
+  id         String  @id @default(cuid())
+  attemptId  String
+  attempt    Attempt @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  questionId String
+
+  @@unique([attemptId, questionId])
+}
+
+model Certificate {
+  id            String   @id @default(cuid())
+  code          String   @unique
+  attemptId     String   @unique
+  attempt       Attempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  examId        String
+  exam          Exam     @relation(fields: [examId], references: [id])
+  recipientName String
+  examTitle     String
+  scorePct      Float
+  levelLabel    String
+  issuedAt      DateTime @default(now())
+
+  @@index([userId])
+}
+
+// --- Course marketplace ---
+
+enum PurchaseStatus {
+  PENDING
+  COMPLETED
+  REFUNDED
+}
+
+model Course {
+  id            String     @id @default(cuid())
+  title         String
+  description   String
+  thumbnailUrl  String
+  priceCents    Int
+  currency      String     @default("usd")
+  category      String?
+  badge         String?
+  rating        Float      @default(0)
+  studentsCount Int        @default(0)
+  durationHours Int
+  order         Int        @default(0)
+  createdAt     DateTime   @default(now())
+  purchases     Purchase[]
+}
+
+model Purchase {
+  id                      String         @id @default(cuid())
+  userId                  String
+  user                    User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId                String
+  course                  Course         @relation(fields: [courseId], references: [id])
+  status                  PurchaseStatus @default(PENDING)
+  amountCents             Int
+  currency                String         @default("usd")
+  // Left null for mock enrollments; populated once real Stripe checkout is wired in.
+  stripeCheckoutSessionId String?        @unique
+  stripePaymentIntentId   String?        @unique
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
+  completedAt             DateTime?
+
+  @@index([userId, courseId])
+}
+
+// --- Study materials ---
+
+model StudyMaterial {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  skill       Skill?
+  type        String
+  url         String?
+  createdAt   DateTime @default(now())
+}

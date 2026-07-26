@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>iTEP Center - Certificate View</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Playfair+Display:ital,wght@0,700;1,700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d6e3ff",
+                        "on-primary": "#ffffff",
+                        "danger": "#EF4444",
+                        "secondary-fixed": "#ffdcc1",
+                        "surface-bright": "#f8f9fd",
+                        "on-primary-fixed": "#011b3e",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#8f4e00",
+                        "on-primary-container": "#778cb5",
+                        "tertiary-fixed-dim": "#f6ba8e",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#191c1f",
+                        "outline-variant": "#c4c6cf",
+                        "surface-container-high": "#e7e8ec",
+                        "on-tertiary-fixed": "#2f1400",
+                        "surface-glass": "rgba(255, 255, 255, 0.7)",
+                        "on-background": "#191c1f",
+                        "on-tertiary-container": "#b48059",
+                        "primary": "#000f27",
+                        "on-surface-variant": "#44474e",
+                        "tertiary-fixed": "#ffdcc4",
+                        "primary-fixed-dim": "#b1c7f3",
+                        "on-secondary-fixed": "#2e1500",
+                        "tertiary": "#1d0a00",
+                        "text-primary": "#1B1B1B",
+                        "error": "#ba1a1a",
+                        "surface-container": "#edeef2",
+                        "surface-dim": "#d9dade",
+                        "warning": "#F59E0B",
+                        "on-tertiary-fixed-variant": "#663d1b",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e1e2e6",
+                        "background": "#f8f9fd",
+                        "primary-container": "#0b2447",
+                        "secondary-container": "#fd9830",
+                        "surface-container-highest": "#e1e2e6",
+                        "surface-tint": "#4a5f85",
+                        "on-secondary-container": "#683700",
+                        "inverse-primary": "#b1c7f3",
+                        "inverse-surface": "#2e3134",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f2f3f7",
+                        "secondary-fixed-dim": "#ffb77a",
+                        "success": "#22C55E",
+                        "tertiary-container": "#3c1c00",
+                        "on-secondary-fixed-variant": "#6c3a00",
+                        "outline": "#74777f",
+                        "surface": "#f8f9fd",
+                        "text-secondary": "#6B7280",
+                        "inverse-on-surface": "#eff1f5",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#32476c"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin-desktop": "32px",
+                        "lg": "40px",
+                        "margin-mobile": "16px",
+                        "xl": "64px",
+                        "gutter": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "serif": ["Playfair Display", "serif"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .certificate-container {
+            aspect-ratio: 1.414 / 1;
+            max-width: 1000px;
+            box-shadow: 0 10px 40px rgba(0, 15, 39, 0.12);
+        }
+        .certificate-border {
+            border: 24px solid transparent;
+            border-image: linear-gradient(to bottom right, #000f27, #fd9830, #000f27) 1;
+        }
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            font-size: 8rem;
+            opacity: 0.03;
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; }
+            .certificate-container { 
+                box-shadow: none; 
+                margin: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-surface-glass backdrop-blur-md dark:bg-surface-container-low/70 shadow-sm dark:shadow-none no-print">
+<div class="font-headline-md text-headline-md font-bold text-primary">iTEP Center</div>
+<div class="hidden md:flex items-center gap-lg">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Solutions</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Pricing</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">About</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Contact</a>
+</div>
+<div class="flex items-center gap-sm">
+<button class="px-md py-sm rounded-lg font-label-md text-label-md border border-outline text-on-surface-variant hover:bg-surface-container-high transition-colors">Sign In</button>
+<button class="px-md py-sm rounded-lg font-label-md text-label-md bg-primary text-on-primary hover:opacity-90 active:scale-95 transition-all">Get Started</button>
+</div>
+</nav>
+<div class="flex min-h-screen pt-20">
+<!-- SideNavBar (Suppressed for focused view, but kept as a subtle utility panel) -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-80px)] w-20 md:w-64 bg-surface dark:bg-surface-container-lowest border-r border-outline-variant flex flex-col p-md no-print transition-all duration-300">
+<div class="flex items-center gap-sm mb-lg">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container">
+<img class="w-full h-full object-cover" data-alt="A professional close-up studio portrait of a confident university student with a warm smile, wearing business casual attire. The background is a soft-focus academic hallway with natural lighting and a clean, high-end educational aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxYXUOWuwjPkflmZJuEK3Aom-vXNXpBMzBUcj9XUfu2dmJPY8_oiFwgzDAOMIv-OK1sIAV4WCf0jqGjXUPpYU6Ah0C5wFVzT8RYLaou23oL3K-JZ-3_zzaGYgmoZE8IU5VIsDz4HVaxaviIxAheEoIjXiAQOVKWlJhe8b1sEHXkOR3geloEt4EX6M4VHo2UacCsUdQMKJGiIJ02Xw8A2L6vs0bYMc-G_0nWkjWK90n1eX4y0_5ttYTnzgfhJHNzRZFXKfHZQOpR-g"/>
+</div>
+<div class="hidden md:block">
+<p class="font-label-md text-label-md text-primary font-bold">Alex Johnson</p>
+<p class="text-body-sm text-on-surface-variant">ID: 88291</p>
+</div>
+</div>
+<nav class="flex flex-col gap-xs flex-1">
+<a class="flex items-center gap-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="hidden md:block font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-sm bg-primary-fixed text-on-primary-fixed rounded-lg px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+<span class="hidden md:block font-label-md text-label-md">My Courses</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="hidden md:block font-label-md text-label-md">Exams</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-xs">
+<a class="flex items-center gap-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="hidden md:block font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="hidden md:block font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-20 md:ml-64 p-margin-mobile md:p-margin-desktop bg-background overflow-x-hidden">
+<div class="max-w-6xl mx-auto">
+<!-- Action Bar -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-md mb-lg no-print">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-primary">Certificate of Achievement</h1>
+<p class="font-body-md text-on-surface-variant">Verified on October 24, 2024</p>
+</div>
+<div class="flex flex-wrap gap-sm">
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container-highest text-on-surface rounded-lg hover:bg-surface-variant transition-colors" onclick="window.print()">
+<span class="material-symbols-outlined" data-icon="print">print</span>
+<span class="font-label-md">Print</span>
+</button>
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container-highest text-on-surface rounded-lg hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+<span class="font-label-md">Download PDF</span>
+</button>
+<button class="flex items-center gap-xs px-md py-sm bg-primary text-on-primary rounded-lg hover:opacity-90 active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined" data-icon="verified">verified</span>
+<span class="font-label-md">Verify Certificate</span>
+</button>
+</div>
+</div>
+<!-- Certificate Canvas -->
+<div class="certificate-container bg-white relative overflow-hidden mx-auto border-8 border-primary/5 p-4 md:p-8">
+<div class="certificate-border h-full w-full bg-white relative flex flex-col items-center justify-between py-xl px-lg">
+<!-- Watermark -->
+<div class="watermark font-bold text-primary select-none">iTEP INTERNATIONAL</div>
+<!-- Header Section -->
+<div class="text-center z-10">
+<div class="mb-sm">
+<span class="material-symbols-outlined text-primary text-6xl" data-icon="account_balance">account_balance</span>
+</div>
+<h2 class="font-serif text-5xl text-primary tracking-wide uppercase mb-xs">Certificate</h2>
+<p class="font-label-md tracking-[0.3em] text-on-surface-variant uppercase">Of Achievement and Proficiency</p>
+</div>
+<!-- Main Content -->
+<div class="text-center z-10 w-full max-w-2xl">
+<p class="font-body-lg italic text-on-surface-variant mb-md">This is to certify that</p>
+<h3 class="font-serif text-6xl text-primary mb-md border-b-2 border-primary-fixed inline-block px-xl pb-2">Alex Johnson</h3>
+<p class="font-body-lg text-on-surface-variant mb-xl leading-relaxed">
+                                has successfully completed the international standard requirements for the
+                                <br/>
+<span class="font-bold text-primary">iTEP Academic-Plus English Proficiency Exam</span>
+<br/>
+                                demonstrating exceptional mastery in Reading, Writing, Listening, and Speaking.
+                            </p>
+</div>
+<!-- Score & Details Grid -->
+<div class="grid grid-cols-3 w-full max-w-3xl gap-xl z-10 border-t border-b border-outline-variant/30 py-lg">
+<div class="text-center">
+<p class="text-label-sm uppercase text-on-surface-variant mb-xs">Overall Score</p>
+<p class="font-serif text-4xl text-secondary">5.8 / 6.0</p>
+<p class="text-body-sm font-bold text-primary mt-1">Advanced (C1)</p>
+</div>
+<div class="text-center border-x border-outline-variant/30 px-md">
+<p class="text-label-sm uppercase text-on-surface-variant mb-xs">Exam Date</p>
+<p class="font-body-md font-bold text-primary">October 24, 2024</p>
+<p class="text-body-sm text-on-surface-variant mt-1">Session #49202</p>
+</div>
+<div class="text-center">
+<p class="text-label-sm uppercase text-on-surface-variant mb-xs">Verification</p>
+<p class="font-body-md font-bold text-primary">ITEP-AJ-2024-X9</p>
+<p class="text-body-sm text-on-surface-variant mt-1">Valid until Oct 2026</p>
+</div>
+</div>
+<!-- Footer: Signatures & Seal -->
+<div class="flex justify-between items-end w-full z-10 mt-xl">
+<!-- Left Signature -->
+<div class="w-48 text-center">
+<div class="mb-2 h-16 flex items-center justify-center">
+<img class="h-12 w-auto opacity-80" data-alt="A stylized, elegant digital signature in dark navy ink, appearing as fluid, handwritten cursive. It looks professional and authoritative, set against a transparent background to blend into the certificate design. The style is classic and academic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXccTosv8ZJMtwvqt2lWUqqdh4XInqB6JXTIJZhBwFuYF5x5iZjb_s0SQjyrh8sbqlfTj3Y4bhCzxBSiKg6fO2U8TStnzP7nFhlo9tYgz07KrdKamJ5ZSW-NY8IFhYDQ6QFL01wJSEtBFDy6J-RDUHtEkbgj6Mi0LtMZX8CCkQNEWG3EQnf6pdzXbfY_Y-Q4OrWLImx5Sc2NczZioLMG1N3FGOKbVP9uzEgEY4jNFsmCpY151S4UdZRrTgR7zpYJufgAU2zI3-egQ"/>
+</div>
+<div class="border-t border-primary pt-2">
+<p class="text-label-sm font-bold text-primary uppercase">Dr. Julian Richter</p>
+<p class="text-[10px] text-on-surface-variant">Director of Academics</p>
+</div>
+</div>
+<!-- Center Seal -->
+<div class="relative">
+<div class="w-32 h-32 rounded-full border-4 border-secondary/20 flex items-center justify-center relative">
+<div class="absolute inset-0 bg-secondary/5 rounded-full animate-pulse"></div>
+<div class="w-24 h-24 rounded-full border-2 border-secondary flex flex-col items-center justify-center text-center p-2">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="verified_user">verified_user</span>
+<p class="text-[8px] font-bold text-secondary uppercase leading-tight mt-1">Official Certified Seal</p>
+</div>
+</div>
+</div>
+<!-- Right QR & Signature -->
+<div class="flex flex-col items-center gap-md">
+<div class="bg-white p-2 border border-outline-variant">
+<img class="w-16 h-16" data-alt="A clean, high-resolution QR code square with precise black modules on a white background. It features a modern minimalist aesthetic and is designed for digital verification scanning. The surrounding space is tidy and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoDBVRq-B44b7mqe1o4hYDZSjJMd4De9eaMKoR5VCFfz-1ahUHTAbogxmAVaz1e5mjtIPZu2_gLM7U3sCHIrjLYn45REBUnzCqIzfFJVrGZ2TXIeSy2vkwSWfGlKiwgnBDIxWYN8utEneXhh7z8ljYcmcrpkoxFXE1589Pr-VO6y5FJSUwAAdBZyEO3972MW3Ow-ZtAvVMOUCDeYm6xbkeIXvsAHBRcPuxCJ-aWa_SDIr6UBStK-lXsLSdwGbYkr5_nGYADpw48so"/>
+</div>
+<div class="w-48 text-center">
+<div class="border-t border-primary pt-2">
+<p class="text-label-sm font-bold text-primary uppercase">iTEP International</p>
+<p class="text-[10px] text-on-surface-variant">Los Angeles, CA, USA</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Info Section -->
+<section class="mt-xl grid grid-cols-1 md:grid-cols-2 gap-gutter no-print">
+<div class="bg-white p-lg rounded-xl shadow-sm border border-outline-variant/30">
+<h4 class="font-headline-md text-headline-md text-primary mb-md">Skill Breakdown</h4>
+<div class="space-y-sm">
+<div class="space-y-1">
+<div class="flex justify-between text-label-md">
+<span>Grammar</span>
+<span class="font-bold">6.0</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full">
+<div class="h-full bg-secondary-container rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-label-md">
+<span>Listening</span>
+<span class="font-bold">5.5</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full">
+<div class="h-full bg-secondary-container rounded-full" style="width: 92%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-label-md">
+<span>Reading</span>
+<span class="font-bold">5.8</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full">
+<div class="h-full bg-secondary-container rounded-full" style="width: 96%"></div>
+</div>
+</div>
+<div class="space-y-1">
+<div class="flex justify-between text-label-md">
+<span>Writing</span>
+<span class="font-bold">5.7</span>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full">
+<div class="h-full bg-secondary-container rounded-full" style="width: 95%"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white p-lg rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+<div>
+<h4 class="font-headline-md text-headline-md text-primary mb-md">Share Achievements</h4>
+<p class="text-body-md text-on-surface-variant mb-lg">Add your verified iTEP certification to your professional profiles or share it with educational institutions directly.</p>
+</div>
+<div class="grid grid-cols-2 gap-sm">
+<button class="flex items-center justify-center gap-xs px-md py-sm border border-outline rounded-lg hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined" data-icon="link">link</span>
+<span class="font-label-md">Copy Link</span>
+</button>
+<button class="flex items-center justify-center gap-xs px-md py-sm bg-primary-fixed text-on-primary-fixed rounded-lg hover:opacity-90 transition-all">
+<span class="material-symbols-outlined" data-icon="share">share</span>
+<span class="font-label-md">LinkedIn</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="w-full py-xl px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-md bg-primary text-on-primary no-print">
+<div class="font-headline-md text-headline-md font-bold text-on-primary">iTEP Center</div>
+<div class="flex gap-md">
+<a class="text-on-primary/80 hover:text-on-primary transition-colors font-body-sm text-body-sm" href="#">Privacy Policy</a>
+<a class="text-on-primary/80 hover:text-on-primary transition-colors font-body-sm text-body-sm" href="#">Terms of Service</a>
+<a class="text-on-primary/80 hover:text-on-primary transition-colors font-body-sm text-body-sm" href="#">Accessibility</a>
+<a class="text-on-primary/80 hover:text-on-primary transition-colors font-body-sm text-body-sm" href="#">Global Centers</a>
+</div>
+<p class="font-body-sm text-body-sm text-on-primary/60">© 2024 iTEP International. Academic Excellence Defined.</p>
+</footer>
+<script>
+        // Simple micro-interaction for the verification button
+        document.querySelector('[data-icon="verified"]').closest('button').addEventListener('click', function() {
+            const btn = this;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin" data-icon="sync">sync</span> <span class="font-label-md">Verifying...</span>';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.classList.remove('bg-primary');
+                btn.classList.add('bg-success');
+                btn.innerHTML = '<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span> <span class="font-label-md">Verified</span>';
+                
+                setTimeout(() => {
+                    btn.classList.add('bg-primary');
+                    btn.classList.remove('bg-success');
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 3000);
+            }, 1500);
+        });
+    </script>
+</body></html>

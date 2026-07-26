@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>iTEP Exam Results | Academic Excellence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d6e3ff",
+                        "on-primary": "#ffffff",
+                        "danger": "#EF4444",
+                        "secondary-fixed": "#ffdcc1",
+                        "surface-bright": "#f8f9fd",
+                        "on-primary-fixed": "#011b3e",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#8f4e00",
+                        "on-primary-container": "#778cb5",
+                        "tertiary-fixed-dim": "#f6ba8e",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#191c1f",
+                        "outline-variant": "#c4c6cf",
+                        "surface-container-high": "#e7e8ec",
+                        "on-tertiary-fixed": "#2f1400",
+                        "surface-glass": "rgba(255, 255, 255, 0.7)",
+                        "on-background": "#191c1f",
+                        "on-tertiary-container": "#b48059",
+                        "primary": "#000f27",
+                        "on-surface-variant": "#44474e",
+                        "tertiary-fixed": "#ffdcc4",
+                        "primary-fixed-dim": "#b1c7f3",
+                        "on-secondary-fixed": "#2e1500",
+                        "tertiary": "#1d0a00",
+                        "text-primary": "#1B1B1B",
+                        "error": "#ba1a1a",
+                        "surface-container": "#edeef2",
+                        "surface-dim": "#d9dade",
+                        "warning": "#F59E0B",
+                        "on-tertiary-fixed-variant": "#663d1b",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e1e2e6",
+                        "background": "#f8f9fd",
+                        "primary-container": "#0b2447",
+                        "secondary-container": "#fd9830",
+                        "surface-container-highest": "#e1e2e6",
+                        "surface-tint": "#4a5f85",
+                        "on-secondary-container": "#683700",
+                        "inverse-primary": "#b1c7f3",
+                        "inverse-surface": "#2e3134",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f2f3f7",
+                        "secondary-fixed-dim": "#ffb77a",
+                        "success": "#22C55E",
+                        "tertiary-container": "#3c1c00",
+                        "on-secondary-fixed-variant": "#6c3a00",
+                        "outline": "#74777f",
+                        "surface": "#f8f9fd",
+                        "text-secondary": "#6B7280",
+                        "inverse-on-surface": "#eff1f5",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#32476c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "md": "24px",
+                        "sm": "12px",
+                        "margin-desktop": "32px",
+                        "lg": "40px",
+                        "margin-mobile": "16px",
+                        "xl": "64px",
+                        "gutter": "24px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-md": ["Inter"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0px 4px 20px rgba(11, 36, 71, 0.05);
+        }
+        .gauge-ring {
+            transition: stroke-dashoffset 1s ease-out;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-surface-glass backdrop-blur-md">
+<div class="font-headline-md text-headline-md font-bold text-primary">iTEP Center</div>
+<div class="hidden md:flex gap-lg">
+<a class="font-label-md text-label-md text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Solutions</a>
+<a class="font-label-md text-label-md text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Pricing</a>
+<a class="font-label-md text-label-md text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">About</a>
+<a class="font-label-md text-label-md text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Contact</a>
+</div>
+<div class="flex items-center gap-md">
+<button class="font-label-md text-label-md text-primary font-medium hover:opacity-80">Sign In</button>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-lg font-label-md text-label-md font-bold active:scale-95 transition-transform">Get Started</button>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-32 pb-xl px-margin-desktop max-w-[1440px] mx-auto">
+<!-- Header Section with Actions -->
+<header class="flex flex-col md:flex-row justify-between items-end mb-lg gap-md">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline mb-xs block">Exam Identification: #ITEP-99281-ALX</span>
+<h1 class="font-display-lg text-display-lg text-primary tracking-tight">Exam Performance Report</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mt-sm">Candidate: Alex Johnson • Date: October 24, 2024 • iTEP Academic-Plus</p>
+</div>
+<div class="flex gap-sm">
+<button class="flex items-center gap-xs px-6 py-3 border border-primary text-primary rounded-lg font-label-md text-label-md font-bold hover:bg-primary/5 transition-all">
+<span class="material-symbols-outlined">share</span>
+                    Share to LinkedIn
+                </button>
+<button class="flex items-center gap-xs px-6 py-3 bg-secondary text-on-primary rounded-lg font-label-md text-label-md font-bold shadow-md hover:opacity-90 transition-all">
+<span class="material-symbols-outlined">download</span>
+                    Download Official PDF
+                </button>
+</div>
+</header>
+<!-- Bento Grid Dashboard -->
+<div class="bento-grid">
+<!-- Overall Score Gauge -->
+<div class="col-span-12 lg:col-span-4 bg-white rounded-xl p-lg flex flex-col items-center justify-center shadow-sm relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-9xl">school</span>
+</div>
+<h3 class="font-label-md text-label-md font-bold text-outline mb-lg uppercase tracking-widest">Overall Proficiency</h3>
+<div class="relative flex items-center justify-center w-64 h-64">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-surface-container" cx="128" cy="128" fill="transparent" r="110" stroke="currentColor" stroke-width="14"></circle>
+<circle class="text-secondary gauge-ring" cx="128" cy="128" fill="transparent" r="110" stroke="currentColor" stroke-dasharray="691" stroke-dashoffset="138" stroke-linecap="round" stroke-width="14"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="font-display-lg text-display-lg text-primary leading-none">4.8</span>
+<span class="font-label-md text-label-md text-on-surface-variant font-bold">Level B2+</span>
+</div>
+</div>
+<div class="mt-lg text-center">
+<p class="font-body-md text-body-md text-on-surface-variant italic">"Upper-Intermediate: Able to interact with a degree of fluency."</p>
+</div>
+</div>
+<!-- Proficiency Radar Chart (Visual Placeholder) -->
+<div class="col-span-12 lg:col-span-8 bg-white rounded-xl p-lg shadow-sm">
+<div class="flex justify-between items-center mb-lg">
+<h3 class="font-headline-md text-headline-md text-primary font-bold">Performance Insights</h3>
+<div class="flex gap-sm">
+<span class="flex items-center gap-xs font-label-sm text-label-sm text-on-surface-variant">
+<span class="w-3 h-3 rounded-full bg-secondary"></span> Actual
+                        </span>
+<span class="flex items-center gap-xs font-label-sm text-label-sm text-on-surface-variant">
+<span class="w-3 h-3 rounded-full bg-surface-container-high"></span> Target
+                        </span>
+</div>
+</div>
+<div class="h-[300px] w-full flex items-center justify-center relative">
+<!-- Custom SVG Radar Visualization -->
+<svg class="w-full h-full max-w-[400px]" viewbox="0 0 400 400">
+<!-- Background Pentagons -->
+<polygon fill="none" points="200,40 352,150 294,330 106,330 48,150" stroke="#E5E7EB" stroke-width="1"></polygon>
+<polygon fill="none" points="200,80 322,168 276,312 124,312 78,168" stroke="#E5E7EB" stroke-width="1"></polygon>
+<polygon fill="none" points="200,120 291,186 257,294 143,294 109,186" stroke="#E5E7EB" stroke-width="1"></polygon>
+<polygon fill="none" points="200,160 260,204 237,276 163,276 140,204" stroke="#E5E7EB" stroke-width="1"></polygon>
+<!-- Data Shape -->
+<polygon fill="rgba(143, 78, 0, 0.1)" points="200,60 340,150 280,300 130,280 60,150" stroke="#8f4e00" stroke-linejoin="round" stroke-width="3"></polygon>
+<!-- Labels -->
+<text class="font-label-sm fill-on-surface-variant uppercase" text-anchor="middle" x="200" y="25">Grammar</text>
+<text class="font-label-sm fill-on-surface-variant uppercase" text-anchor="start" x="375" y="155">Listening</text>
+<text class="font-label-sm fill-on-surface-variant uppercase" text-anchor="middle" x="310" y="360">Reading</text>
+<text class="font-label-sm fill-on-surface-variant uppercase" text-anchor="middle" x="90" y="360">Writing</text>
+<text class="font-label-sm fill-on-surface-variant uppercase" text-anchor="end" x="25" y="155">Speaking</text>
+</svg>
+</div>
+</div>
+<!-- Sectional Breakdown -->
+<div class="col-span-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-md">
+<!-- Grammar -->
+<div class="bg-white p-md rounded-xl shadow-sm border-l-4 border-primary">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-primary">edit_note</span>
+<span class="bg-primary-fixed text-on-primary-fixed px-2 py-1 rounded font-label-sm text-[10px]">92%</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant font-bold uppercase mb-xs">Grammar</p>
+<p class="font-headline-md text-headline-md text-primary">5.2</p>
+</div>
+<!-- Listening -->
+<div class="bg-white p-md rounded-xl shadow-sm border-l-4 border-secondary">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-secondary">hearing</span>
+<span class="bg-secondary-fixed text-on-secondary-fixed px-2 py-1 rounded font-label-sm text-[10px]">85%</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant font-bold uppercase mb-xs">Listening</p>
+<p class="font-headline-md text-headline-md text-primary">4.8</p>
+</div>
+<!-- Reading -->
+<div class="bg-white p-md rounded-xl shadow-sm border-l-4 border-secondary">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-secondary">menu_book</span>
+<span class="bg-secondary-fixed text-on-secondary-fixed px-2 py-1 rounded font-label-sm text-[10px]">78%</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant font-bold uppercase mb-xs">Reading</p>
+<p class="font-headline-md text-headline-md text-primary">4.2</p>
+</div>
+<!-- Writing -->
+<div class="bg-white p-md rounded-xl shadow-sm border-l-4 border-primary">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-primary">draw</span>
+<span class="bg-primary-fixed text-on-primary-fixed px-2 py-1 rounded font-label-sm text-[10px]">88%</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant font-bold uppercase mb-xs">Writing</p>
+<p class="font-headline-md text-headline-md text-primary">5.0</p>
+</div>
+<!-- Speaking -->
+<div class="bg-white p-md rounded-xl shadow-sm border-l-4 border-secondary">
+<div class="flex justify-between items-start mb-sm">
+<span class="material-symbols-outlined text-secondary">mic</span>
+<span class="bg-secondary-fixed text-on-secondary-fixed px-2 py-1 rounded font-label-sm text-[10px]">82%</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface-variant font-bold uppercase mb-xs">Speaking</p>
+<p class="font-headline-md text-headline-md text-primary">4.5</p>
+</div>
+</div>
+<!-- Weak Areas & Recommendations -->
+<div class="col-span-12 lg:col-span-7 bg-surface-container-low rounded-xl p-lg shadow-sm">
+<h3 class="font-headline-md text-headline-md text-primary font-bold mb-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-error">analytics</span>
+                    Targeted Growth Areas
+                </h3>
+<div class="space-y-md">
+<div class="bg-white p-md rounded-lg flex gap-md items-start">
+<div class="p-2 bg-error-container rounded-full">
+<span class="material-symbols-outlined text-error">auto_stories</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md font-bold text-primary mb-xs">Complex Reading Comprehension</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Scores indicate difficulty with inferential meaning in academic texts. Focus on synthesizing information across multiple paragraphs.</p>
+<ul class="mt-sm space-y-xs">
+<li class="flex items-center gap-xs text-body-sm"><span class="material-symbols-outlined text-xs">arrow_forward</span> Practice with scientific journal abstracts.</li>
+<li class="flex items-center gap-xs text-body-sm"><span class="material-symbols-outlined text-xs">arrow_forward</span> Review transitional markers (e.g., "notwithstanding," "conversely").</li>
+</ul>
+</div>
+</div>
+<div class="bg-white p-md rounded-lg flex gap-md items-start">
+<div class="p-2 bg-warning/20 rounded-full">
+<span class="material-symbols-outlined text-warning">record_voice_over</span>
+</div>
+<div>
+<h4 class="font-label-md text-label-md font-bold text-primary mb-xs">Lexical Variety in Speaking</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Frequent repetition of common adjectives. Expand vocabulary to include more academic and precise terminology.</p>
+<ul class="mt-sm space-y-xs">
+<li class="flex items-center gap-xs text-body-sm"><span class="material-symbols-outlined text-xs">arrow_forward</span> Utilize the "Academic Word List" in daily practice.</li>
+<li class="flex items-center gap-xs text-body-sm"><span class="material-symbols-outlined text-xs">arrow_forward</span> Record and critique 2-minute spontaneous speeches.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Suggested Courses / Study Plan -->
+<div class="col-span-12 lg:col-span-5 bg-white rounded-xl p-lg shadow-sm flex flex-col">
+<h3 class="font-headline-md text-headline-md text-primary font-bold mb-md">Personalized Study Plan</h3>
+<div class="space-y-sm flex-grow">
+<div class="border border-outline-variant rounded-lg p-sm hover:border-secondary transition-colors cursor-pointer group">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm bg-surface-container-high px-2 py-1 rounded">Advanced Reading</span>
+<span class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+<p class="font-body-md text-body-md font-bold mt-xs">Mastering Inference & Tone</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">12 Modules • 4.5 Stars</p>
+</div>
+<div class="border border-outline-variant rounded-lg p-sm hover:border-secondary transition-colors cursor-pointer group">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm bg-surface-container-high px-2 py-1 rounded">Fluency Coach</span>
+<span class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+<p class="font-body-md text-body-md font-bold mt-xs">AI-Powered Speaking Drill</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Daily Practice • Adaptive Level</p>
+</div>
+<div class="border border-outline-variant rounded-lg p-sm hover:border-secondary transition-colors cursor-pointer group">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm bg-surface-container-high px-2 py-1 rounded">Mock Exam</span>
+<span class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 transition-opacity">open_in_new</span>
+</div>
+<p class="font-body-md text-body-md font-bold mt-xs">Full Length Practice Test B</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Unlock after 10 study hours</p>
+</div>
+</div>
+<button class="w-full mt-lg bg-primary-container text-white py-3 rounded-lg font-label-md text-label-md font-bold hover:bg-primary-container/90 transition-all">
+                    View Complete Roadmap
+                </button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-xl px-margin-desktop bg-primary flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="text-center md:text-left">
+<div class="font-headline-md text-headline-md font-bold text-on-primary mb-xs">iTEP Center</div>
+<p class="font-body-sm text-body-sm text-on-primary/80">© 2024 iTEP International. Academic Excellence Defined.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-md">
+<a class="font-body-sm text-body-sm text-on-primary/80 hover:text-on-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-primary/80 hover:text-on-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-on-primary/80 hover:text-on-primary transition-colors" href="#">Accessibility</a>
+<a class="font-body-sm text-body-sm text-on-primary/80 hover:text-on-primary transition-colors" href="#">Global Centers</a>
+</div>
+</footer>
+<script>
+        // Simple Micro-interaction for the Gauge
+        document.addEventListener('DOMContentLoaded', () => {
+            const circle = document.querySelector('.gauge-ring');
+            if (circle) {
+                // Initial state set in CSS, but we can animate it specifically if needed
+                circle.style.strokeDashoffset = '138'; // Matches 4.8/6.0 approx
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>iTEP Center - Premium Courses</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d6e3ff",
+                        "on-primary": "#ffffff",
+                        "danger": "#EF4444",
+                        "secondary-fixed": "#ffdcc1",
+                        "surface-bright": "#f8f9fd",
+                        "on-primary-fixed": "#011b3e",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#8f4e00",
+                        "on-primary-container": "#778cb5",
+                        "tertiary-fixed-dim": "#f6ba8e",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#191c1f",
+                        "outline-variant": "#c4c6cf",
+                        "surface-container-high": "#e7e8ec",
+                        "on-tertiary-fixed": "#2f1400",
+                        "surface-glass": "rgba(255, 255, 255, 0.7)",
+                        "on-background": "#191c1f",
+                        "on-tertiary-container": "#b48059",
+                        "primary": "#000f27",
+                        "on-surface-variant": "#44474e",
+                        "tertiary-fixed": "#ffdcc4",
+                        "primary-fixed-dim": "#b1c7f3",
+                        "on-secondary-fixed": "#2e1500",
+                        "tertiary": "#1d0a00",
+                        "text-primary": "#1B1B1B",
+                        "error": "#ba1a1a",
+                        "surface-container": "#edeef2",
+                        "surface-dim": "#d9dade",
+                        "warning": "#F59E0B",
+                        "on-tertiary-fixed-variant": "#663d1b",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-variant": "#e1e2e6",
+                        "background": "#f8f9fd",
+                        "primary-container": "#0b2447",
+                        "secondary-container": "#fd9830",
+                        "surface-container-highest": "#e1e2e6",
+                        "surface-tint": "#4a5f85",
+                        "on-secondary-container": "#683700",
+                        "inverse-primary": "#b1c7f3",
+                        "inverse-surface": "#2e3134",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f2f3f7",
+                        "secondary-fixed-dim": "#ffb77a",
+                        "success": "#22C55E",
+                        "tertiary-container": "#3c1c00",
+                        "on-secondary-fixed-variant": "#6c3a00",
+                        "outline": "#74777f",
+                        "surface": "#f8f9fd",
+                        "text-secondary": "#6B7280",
+                        "inverse-on-surface": "#eff1f5",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#32476c"
+                    },
+                    "spacing": {
+                        "xs": "4px", "md": "24px", "sm": "12px", "margin-desktop": "32px", "lg": "40px", "margin-mobile": "16px", "xl": "64px", "gutter": "24px", "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Plus Jakarta Sans"], "display-lg": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "label-sm": ["Inter"], "body-lg": ["Plus Jakarta Sans"], "label-md": ["Inter"], "display-lg-mobile": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(116, 119, 127, 0.1);
+        }
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- TopNavBar (Shared Component Logic) -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-desktop h-20 bg-surface-glass backdrop-blur-md shadow-sm">
+<div class="flex items-center gap-xl">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">iTEP Center</h1>
+<nav class="hidden md:flex items-center gap-lg">
+<a class="font-label-md text-label-md text-primary font-bold border-b-2 border-secondary h-20 flex items-center" href="#">Solutions</a>
+<a class="font-label-md text-label-md text-on-surface-variant font-medium hover:text-primary transition-colors" href="#">Pricing</a>
+<a class="font-label-md text-label-md text-on-surface-variant font-medium hover:text-primary transition-colors" href="#">About</a>
+<a class="font-label-md text-label-md text-on-surface-variant font-medium hover:text-primary transition-colors" href="#">Contact</a>
+</nav>
+</div>
+<div class="flex items-center gap-md">
+<button class="font-label-md text-label-md text-primary font-bold hover:opacity-80">Sign In</button>
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-lg font-label-md text-label-md font-bold hover:scale-105 active:scale-95 transition-all">Get Started</button>
+</div>
+</header>
+<!-- SideNavBar (Shared Component Logic) - Visible on desktop canvas -->
+<aside class="fixed left-0 top-20 h-[calc(100vh-80px)] w-64 bg-surface border-r border-outline-variant p-md hidden xl:flex flex-col">
+<div class="flex flex-col gap-xs mb-xl">
+<div class="flex items-center gap-sm p-4">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<p class="font-label-md text-label-md font-bold text-primary">Alex Johnson</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">ID: 88291</p>
+</div>
+</div>
+</div>
+<nav class="flex flex-col gap-xs flex-grow">
+<a class="flex items-center gap-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-sm bg-primary-fixed text-on-primary-fixed rounded-lg px-4 py-3" href="#">
+<span class="material-symbols-outlined" data-icon="school">school</span>
+<span class="font-label-md text-label-md">My Courses</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-label-md text-label-md">Exams</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="font-label-md text-label-md">Performance</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-xs border-t border-outline-variant pt-md">
+<button class="w-full bg-secondary text-on-primary font-bold py-3 rounded-lg mb-sm active:scale-95 transition-transform">Upgrade Plan</button>
+<a class="flex items-center gap-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="xl:ml-64 pt-28 pb-xl px-margin-mobile md:px-margin-desktop">
+<!-- Header & Search -->
+<section class="max-w-[1200px] mx-auto mb-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-xl">
+<div>
+<p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest mb-xs">Professional Excellence</p>
+<h2 class="font-display-lg text-display-lg text-primary mb-xs">Premium Courses</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-lg">Master the iTEP exam with our curriculum developed by leading linguistic experts and academic examiners.</p>
+</div>
+<div class="relative w-full md:w-96 group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
+<input class="w-full bg-white border border-outline-variant rounded-xl pl-12 pr-4 py-3 focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none font-body-md text-body-md" placeholder="Search for courses, skills, or topics..." type="text"/>
+</div>
+</div>
+<!-- Filter Bar -->
+<div class="flex flex-wrap items-center gap-sm mb-lg">
+<div class="flex items-center gap-xs px-4 py-2 bg-white border border-outline-variant rounded-full cursor-pointer hover:border-primary transition-colors">
+<span class="font-label-md text-label-md text-on-surface">Exam Category</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</div>
+<div class="flex items-center gap-xs px-4 py-2 bg-white border border-outline-variant rounded-full cursor-pointer hover:border-primary transition-colors">
+<span class="font-label-md text-label-md text-on-surface">Difficulty</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</div>
+<div class="flex items-center gap-xs px-4 py-2 bg-white border border-outline-variant rounded-full cursor-pointer hover:border-primary transition-colors">
+<span class="font-label-md text-label-md text-on-surface">Price Range</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</div>
+<div class="h-6 w-px bg-outline-variant mx-2"></div>
+<button class="font-label-md text-label-md text-secondary font-bold hover:underline">Clear all filters</button>
+</div>
+<!-- Courses Grid -->
+<div class="course-grid">
+<!-- Card 1 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all group flex flex-col border border-outline-variant/30">
+<div class="relative h-48 overflow-hidden">
+<div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors z-10"></div>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A professional young student studying in a bright, minimalist library setting with a laptop. The atmosphere is academic and focused, featuring soft high-key lighting, deep navy blue accents, and a clean modern aesthetic. The shot is a high-quality cinematic photograph with a shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZ1Jl698o2GJnFVskfX_gV5Gk-k1gZXEHt6X-RmJeRMgMmifhQ1x-Fpe5hbJVSsjtDyc0u3R-9sIKvdRf6ro-D8aTZ6xa93f2TMllJcDOpsx4HjpJLix3ehhFtPmdsJfOzJvLv1VNX_hR2nxsn0gd8G0-hnM7ysuRj8pj7yON03zBhF_qYxRpw3wF-x4vT6LzITJX0CNKdlzPSUCV7nlaWZVwWHQatw99fQcvbQYaBoVGecKlcpQ6VCQekleGQVd1FaubvrtZ5rEw"/>
+<div class="absolute top-3 left-3 z-20 bg-secondary px-2 py-1 rounded text-white font-label-sm text-[10px] uppercase tracking-wider">Most Popular</div>
+</div>
+<div class="p-md flex-grow flex flex-col">
+<div class="flex items-center gap-xs mb-xs">
+<div class="flex text-warning">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">(4.9)</span>
+</div>
+<h3 class="font-headline-md text-body-lg font-bold text-primary mb-sm leading-tight group-hover:text-secondary transition-colors">Mastering iTEP Speaking: Academic Precision</h3>
+<div class="flex items-center gap-sm mt-auto pb-md border-b border-outline-variant/20">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span class="font-label-sm text-label-sm">1,248 Students</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span class="font-label-sm text-label-sm">12 Hours</span>
+</div>
+</div>
+<div class="pt-md flex items-center justify-between">
+<span class="font-headline-md text-headline-md font-bold text-primary">$129.00</span>
+<button class="bg-surface-container-high text-primary px-4 py-2 rounded-lg font-label-md text-label-md font-bold group-hover:bg-primary group-hover:text-white transition-all">Enroll Now</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all group flex flex-col border border-outline-variant/30">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A clean, minimalist close-up of high-quality headphones resting on a white desk next to an open notebook and an elegant pen. The lighting is soft and diffused, creating a serene academic atmosphere. The color palette consists of cool grays, deep navy, and crisp whites. High-end professional product photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAX7s9mHTOJsgmVnFOvXRNXIyQPpeN2OVHu0mM0R-mok0A64X9i7bgRn7xFySKL88rnYpgLoKJ81IyIny4gDbzl9J-IlfSgL6Vwc2oYQnPvpFT2awNp3ebUSxCAiS_-3zvq7q607C6uEaC14Y39JcHMR6KrEbJFUhoDrmZWpdGLZJkdSTxP7hW3QEq6HBtq9GHUCctshxd4M-PCFexvqi5vBHvFjBbyb_KIqUIGthGmDAoEGrwPf9l8AZFFFra1I5VeJxwqxr9ogu8"/>
+<div class="absolute top-3 left-3 z-20 bg-primary px-2 py-1 rounded text-white font-label-sm text-[10px] uppercase tracking-wider">Expert Led</div>
+</div>
+<div class="p-md flex-grow flex flex-col">
+<div class="flex items-center gap-xs mb-xs">
+<div class="flex text-warning">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]">star_half</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">(4.7)</span>
+</div>
+<h3 class="font-headline-md text-body-lg font-bold text-primary mb-sm leading-tight group-hover:text-secondary transition-colors">Advanced Writing Strategies for iTEP Academic</h3>
+<div class="flex items-center gap-sm mt-auto pb-md border-b border-outline-variant/20">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span class="font-label-sm text-label-sm">856 Students</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span class="font-label-sm text-label-sm">8 Hours</span>
+</div>
+</div>
+<div class="pt-md flex items-center justify-between">
+<span class="font-headline-md text-headline-md font-bold text-primary">$149.00</span>
+<button class="bg-surface-container-high text-primary px-4 py-2 rounded-lg font-label-md text-label-md font-bold group-hover:bg-primary group-hover:text-white transition-all">Enroll Now</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all group flex flex-col border border-outline-variant/30">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An abstract digital representation of sound waves and linguistic patterns, presented in a minimalist, sophisticated style. The background is a very dark navy, with thin, glowing lines of orange and white tracing elegant paths across the composition. The mood is high-tech, precise, and academic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZf_UIvPk6rD-x0HoV8uN4Z1xxnSH3UsIDAm-peoITvSSfHeRWvy-OXaEAXCw2qwejmB9AxHRvknR06ph1fQybzRCoEDW95NQGg9yj4QZh9OZRo6CBWzOSVHt34XTUyvH5_jQi7EQxTuS0D18a2eQoYI62hO06PZlR8BcrEKe3DO2LYewnIsEnsKvjmM4RNHqjzqW-j8EP9dROj4IKXVWwFDgEfi3z7IBku7guciplqb2ycFFapiCO3oRGm8xJdyzZgGmfLZL20uY"/>
+</div>
+<div class="p-md flex-grow flex flex-col">
+<div class="flex items-center gap-xs mb-xs">
+<div class="flex text-warning">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">(5.0)</span>
+</div>
+<h3 class="font-headline-md text-body-lg font-bold text-primary mb-sm leading-tight group-hover:text-secondary transition-colors">Complete iTEP Reading Comprehension Intensive</h3>
+<div class="flex items-center gap-sm mt-auto pb-md border-b border-outline-variant/20">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span class="font-label-sm text-label-sm">2,104 Students</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span class="font-label-sm text-label-sm">15 Hours</span>
+</div>
+</div>
+<div class="pt-md flex items-center justify-between">
+<span class="font-headline-md text-headline-md font-bold text-primary">$199.00</span>
+<button class="bg-surface-container-high text-primary px-4 py-2 rounded-lg font-label-md text-label-md font-bold group-hover:bg-primary group-hover:text-white transition-all">Enroll Now</button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all group flex flex-col border border-outline-variant/30">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A high-angle shot of a student's hands typing on a laptop with several textbooks and a clean glass of water nearby. Soft natural light streams from a window off-camera, illuminating a pristine white workspace. The palette is dominated by professional blues and clean neutrals. Minimalist and professional style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuSGllsQRKDoSYgjaviLl65ZzaefuoQDFffoG6hrn5H3WBfEyVjluxUSeluJzluaWHI8FhshrkdVo8Kv4cnerAFWWZIuNGTUsW_DHfLovtqk1EFCInyxHhQz7ZQMicLi5dmCNOo3FzNvBGWajE7cD_y_A2TBAAulmwbfMa4qU38wd4b97iSn48elZ6uDwjcnwc1x_sWD5FtvcXPKpJRp58ZHSJqJ6LldZe72arDScbPK9P2jdnicgGKDNWS5cMV73NDLI2IsjpDyA"/>
+</div>
+<div class="p-md flex-grow flex flex-col">
+<div class="flex items-center gap-xs mb-xs">
+<div class="flex text-warning">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]">star</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">(4.8)</span>
+</div>
+<h3 class="font-headline-md text-body-lg font-bold text-primary mb-sm leading-tight group-hover:text-secondary transition-colors">Listening Skills: Mastering Complex Audio Samples</h3>
+<div class="flex items-center gap-sm mt-auto pb-md border-b border-outline-variant/20">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span class="font-label-sm text-label-sm">642 Students</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span class="font-label-sm text-label-sm">6 Hours</span>
+</div>
+</div>
+<div class="pt-md flex items-center justify-between">
+<span class="font-headline-md text-headline-md font-bold text-primary">$99.00</span>
+<button class="bg-surface-container-high text-primary px-4 py-2 rounded-lg font-label-md text-label-md font-bold group-hover:bg-primary group-hover:text-white transition-all">Enroll Now</button>
+</div>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all group flex flex-col border border-outline-variant/30">
+<div class="relative h-48 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern office environment with professional adults engaged in a workshop. Large glass windows in the background show a blurred city skyline. The interior is bright and airy with clean lines, white furniture, and subtle primary navy accents. The photography is clean, sharp, and corporate." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA51o6vcGtB2UrB2B6yyo35nvJVo4vTcExhLffpZLV0EMehpKoc6qi9zPG03OWU-hDeE8IG2eL9RlVovwBCT3_JliS0Jsxy1sKDcMsfSMEkjltn8lufuLRHyBnsK4n9HUqazhvKDfA9YohBd_gcjo6FGk5CY-2qxHih3CR8VBU1RdVHkfn0oC5nSW1iZXocsEoVzm_D-655zXmfLvvH8iVt7TrbPfsqb_iRiUB7KIP46SA_7OUMdKIyq401riiE2r1UqWRUc5PZsiQ"/>
+</div>
+<div class="p-md flex-grow flex flex-col">
+<div class="flex items-center gap-xs mb-xs">
+<div class="flex text-warning">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]">star_half</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">(4.6)</span>
+</div>
+<h3 class="font-headline-md text-body-lg font-bold text-primary mb-sm leading-tight group-hover:text-secondary transition-colors">iTEP Business: Professional Communication Excellence</h3>
+<div class="flex items-center gap-sm mt-auto pb-md border-b border-outline-variant/20">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span class="font-label-sm text-label-sm">429 Students</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span class="font-label-sm text-label-sm">10 Hours</span>
+</div>
+</div>
+<div class="pt-md flex items-center justify-between">
+<span class="font-headline-md text-headline-md font-bold text-primary">$159.00</span>
+<button class="bg-surface-container-high text-primary px-4 py-2 rounded-lg font-label-md text-label-md font-bold group-hover:bg-primary group-hover:text-white transition-all">Enroll Now</button>
+</div>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all group flex flex-col border border-outline-variant/30">
+<div class="relative h-48 overflow-hidden bg-primary-container flex items-center justify-center p-md">
+<div class="text-center">
+<span class="material-symbols-outlined text-on-primary text-[48px] mb-sm block">auto_awesome</span>
+<p class="font-label-md text-label-md text-on-primary font-bold">Custom Study Plan</p>
+<p class="font-label-sm text-label-sm text-on-primary-container">Coming Soon</p>
+</div>
+</div>
+<div class="p-md flex-grow flex flex-col">
+<div class="flex items-center gap-xs mb-xs opacity-0">
+<div class="flex text-warning"><span class="material-symbols-outlined text-[16px]">star</span></div>
+</div>
+<h3 class="font-headline-md text-body-lg font-bold text-primary mb-sm leading-tight">Personalized AI-Driven iTEP Exam Roadmap</h3>
+<div class="flex items-center gap-sm mt-auto pb-md border-b border-outline-variant/20">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">smart_toy</span>
+<span class="font-label-sm text-label-sm">Limited Access</span>
+</div>
+</div>
+<div class="pt-md flex items-center justify-between">
+<span class="font-headline-md text-headline-md font-bold text-on-surface-variant italic text-lg">In Development</span>
+<button class="text-secondary font-bold font-label-md text-label-md border-b border-secondary">Join Waitlist</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Section (Bento Highlight) -->
+<section class="max-w-[1200px] mx-auto mt-xl bg-primary-container rounded-3xl p-lg overflow-hidden relative">
+<div class="relative z-10 grid md:grid-cols-2 gap-lg items-center">
+<div>
+<h2 class="font-display-lg text-white mb-md">Achieve your target score faster with iTEP Pro.</h2>
+<ul class="space-y-sm mb-lg">
+<li class="flex items-center gap-sm text-primary-fixed">
+<span class="material-symbols-outlined bg-primary-fixed/20 p-1 rounded-full text-[20px]">check</span>
+<span class="font-body-md text-body-md">Unlimited mock examinations with real-time feedback</span>
+</li>
+<li class="flex items-center gap-sm text-primary-fixed">
+<span class="material-symbols-outlined bg-primary-fixed/20 p-1 rounded-full text-[20px]">check</span>
+<span class="font-body-md text-body-md">One-on-one session with certified iTEP examiners</span>
+</li>
+<li class="flex items-center gap-sm text-primary-fixed">
+<span class="material-symbols-outlined bg-primary-fixed/20 p-1 rounded-full text-[20px]">check</span>
+<span class="font-body-md text-body-md">Comprehensive grammar and vocabulary database</span>
+</li>
+</ul>
+<button class="bg-secondary text-on-primary px-8 py-4 rounded-xl font-bold font-label-md text-label-md hover:shadow-lg transition-all active:scale-95">Upgrade to Pro Bundle — $299</button>
+</div>
+<div class="relative group">
+<div class="absolute -inset-4 bg-secondary/20 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="bg-white/10 backdrop-blur-md border border-white/20 p-md rounded-2xl transform rotate-2 group-hover:rotate-0 transition-transform">
+<div class="flex items-center justify-between mb-md">
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-primary-container bg-surface-container"></div>
+<div class="w-10 h-10 rounded-full border-2 border-primary-container bg-surface-container-high"></div>
+<div class="w-10 h-10 rounded-full border-2 border-primary-container bg-surface-variant"></div>
+</div>
+<span class="bg-success/20 text-success px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest">Active Learners</span>
+</div>
+<p class="font-label-md text-label-md text-white mb-xs">Next Live Session starts in:</p>
+<div class="grid grid-cols-3 gap-sm">
+<div class="bg-primary/40 p-2 rounded-lg text-center">
+<p class="text-white font-bold text-xl">12</p>
+<p class="text-white/60 text-[10px] uppercase">Hrs</p>
+</div>
+<div class="bg-primary/40 p-2 rounded-lg text-center">
+<p class="text-white font-bold text-xl">48</p>
+<p class="text-white/60 text-[10px] uppercase">Min</p>
+</div>
+<div class="bg-primary/40 p-2 rounded-lg text-center">
+<p class="text-white font-bold text-xl">05</p>
+<p class="text-white/60 text-[10px] uppercase">Sec</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component Logic) -->
+<footer class="w-full py-xl px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-md bg-primary dark:bg-primary-container">
+<div class="flex flex-col items-center md:items-start gap-sm">
+<h2 class="font-headline-md text-headline-md font-bold text-on-primary">iTEP Center</h2>
+<p class="font-body-sm text-body-sm text-on-primary/80">© 2024 iTEP International. Academic Excellence Defined.</p>
+</div>
+<nav class="flex gap-md flex-wrap justify-center">
+<a class="font-body-sm text-body-sm text-on-primary/80 hover:text-on-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-on-primary/80 hover:text-on-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body-sm text-body-sm text-on-primary/80 hover:text-on-primary transition-colors" href="#">Accessibility</a>
+<a class="font-body-sm text-body-sm text-on-primary/80 hover:text-on-primary transition-colors" href="#">Global Centers</a>
+</nav>
+</footer>
+<script>
+        // Simple filter interactions
+        document.querySelectorAll('.filter-pill').forEach(pill => {
+            pill.addEventListener('click', () => {
+                pill.classList.toggle('border-primary');
+                pill.classList.toggle('bg-primary-fixed/20');
+            });
+        });
+
+        // Hover effect for course cards
+        document.querySelectorAll('.course-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body></html>
