@@ -8,9 +8,9 @@ export default async function TeacherShellLayout({ children }: { children: React
 
   return (
     <>
-      <TeacherSidebar name={session?.user?.name ?? session?.user?.email ?? "Teacher"} roleLabel={roleLabel} />
+      <TeacherSidebar />
       <main className="md:ml-64 min-h-screen flex flex-col flex-1">
-        <TeacherTopNav />
+        <TeacherTopNav name={session?.user?.name ?? session?.user?.email ?? "Teacher"} roleLabel={roleLabel} />
         <div className="mt-20 flex-1 flex flex-col">{children}</div>
       </main>
     </>

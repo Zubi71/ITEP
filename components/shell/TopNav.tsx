@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { UserMenu } from "@/components/shared/UserMenu";
 
 const TITLES: { prefix: string; title: string }[] = [
   { prefix: "/dashboard", title: "Student Dashboard" },
@@ -9,9 +10,10 @@ const TITLES: { prefix: string; title: string }[] = [
   { prefix: "/exam", title: "Exam in Progress" },
   { prefix: "/results", title: "Exam Results" },
   { prefix: "/study", title: "Study Materials" },
+  { prefix: "/support", title: "Support" },
 ];
 
-export function TopNav() {
+export function TopNav({ userName }: { userName: string }) {
   const pathname = usePathname();
   const title = TITLES.find((t) => pathname.startsWith(t.prefix))?.title ?? "iTEP Center";
 
@@ -25,6 +27,7 @@ export function TopNav() {
         >
           New Test
         </Link>
+        <UserMenu name={userName} roleLabel="Student" links={[{ label: "Support", href: "/support", icon: "help" }]} />
       </div>
     </header>
   );

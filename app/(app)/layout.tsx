@@ -13,17 +13,14 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { name: true, email: true, studentId: true },
+    select: { name: true, email: true },
   });
 
   return (
     <>
-      <Sidebar
-        userName={user?.name ?? user?.email ?? "Student"}
-        studentId={user?.studentId ?? null}
-      />
+      <Sidebar />
       <main className="md:ml-64 min-h-screen flex flex-col flex-1">
-        <TopNav />
+        <TopNav userName={user?.name ?? user?.email ?? "Student"} />
         <div className="mt-20 flex-1 flex flex-col">{children}</div>
         <Footer />
       </main>

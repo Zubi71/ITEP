@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
 
 type NavItem = {
   label: string;
@@ -20,7 +19,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Evaluations", href: "/admin/evaluations", icon: "rate_review" },
 ];
 
-export function AdminSidebar({ adminName }: { adminName: string }) {
+export function AdminSidebar() {
   const pathname = usePathname();
 
   return (
@@ -65,49 +64,6 @@ export function AdminSidebar({ adminName }: { adminName: string }) {
           );
         })}
       </nav>
-
-      <div className="mt-auto space-y-xs">
-        <Link
-          href="/admin/settings"
-          className={`flex items-center gap-sm rounded-lg px-4 py-3 transition-colors ${
-            pathname.startsWith("/admin/settings")
-              ? "bg-primary-fixed text-on-primary-fixed"
-              : "text-on-surface-variant hover:bg-surface-container-high"
-          }`}
-        >
-          <span className="material-symbols-outlined">settings</span>
-          <span className="font-label-md text-label-md">Settings</span>
-        </Link>
-        <Link
-          href="/admin/support"
-          className={`flex items-center gap-sm rounded-lg px-4 py-3 transition-colors ${
-            pathname.startsWith("/admin/support")
-              ? "bg-primary-fixed text-on-primary-fixed"
-              : "text-on-surface-variant hover:bg-surface-container-high"
-          }`}
-        >
-          <span className="material-symbols-outlined">help</span>
-          <span className="font-label-md text-label-md">Support</span>
-        </Link>
-
-        <button
-          onClick={() => signOut({ callbackUrl: "/login" })}
-          className="w-full flex items-center gap-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 transition-colors"
-        >
-          <span className="material-symbols-outlined">logout</span>
-          <span className="font-label-md text-label-md">Sign Out</span>
-        </button>
-
-        <div className="flex items-center gap-sm pt-md border-t border-outline-variant">
-          <div className="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center text-on-surface-variant font-bold">
-            {adminName.charAt(0).toUpperCase()}
-          </div>
-          <div className="flex flex-col overflow-hidden">
-            <p className="font-label-md text-on-surface font-bold truncate">{adminName}</p>
-            <p className="font-label-sm text-on-surface-variant">Admin</p>
-          </div>
-        </div>
-      </div>
     </aside>
   );
 }

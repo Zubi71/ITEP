@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
 
 type NavItem = {
   label: string;
@@ -16,16 +15,9 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Exams", href: "/exams", icon: "assignment" },
   { label: "Study", href: "/study", icon: "menu_book" },
   { label: "Performance", icon: "monitoring" },
-  { label: "Support", href: "/support", icon: "help" },
 ];
 
-export function Sidebar({
-  userName,
-  studentId,
-}: {
-  userName: string;
-  studentId: string | null;
-}) {
+export function Sidebar() {
   const pathname = usePathname();
 
   return (
@@ -70,30 +62,10 @@ export function Sidebar({
         })}
       </nav>
 
-      <div className="mt-auto space-y-md">
+      <div className="mt-auto">
         <div className="p-sm bg-secondary-container rounded-xl flex flex-col gap-xs">
           <p className="font-label-sm text-on-secondary-container">FREE PLAN</p>
           <p className="font-label-md text-on-secondary-container font-bold">Upgrade Plan</p>
-        </div>
-
-        <div className="space-y-xs">
-          <button
-            onClick={() => signOut({ callbackUrl: "/login" })}
-            className="w-full flex items-center gap-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 transition-colors"
-          >
-            <span className="material-symbols-outlined">logout</span>
-            <span className="font-label-md text-label-md">Sign Out</span>
-          </button>
-        </div>
-
-        <div className="flex items-center gap-sm pt-md border-t border-outline-variant">
-          <div className="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center text-on-surface-variant font-bold">
-            {userName.charAt(0).toUpperCase()}
-          </div>
-          <div className="flex flex-col">
-            <p className="font-label-md text-on-surface font-bold">{userName}</p>
-            {studentId && <p className="font-label-sm text-on-surface-variant">ID: {studentId}</p>}
-          </div>
         </div>
       </div>
     </aside>

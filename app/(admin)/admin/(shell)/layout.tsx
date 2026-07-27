@@ -7,9 +7,9 @@ export default async function AdminShellLayout({ children }: { children: React.R
 
   return (
     <>
-      <AdminSidebar adminName={session?.user?.name ?? session?.user?.email ?? "Admin"} />
+      <AdminSidebar />
       <main className="md:ml-64 min-h-screen flex flex-col flex-1">
-        <AdminTopNav />
+        <AdminTopNav adminName={session?.user?.name ?? session?.user?.email ?? "Admin"} />
         <div className="mt-20 flex-1 flex flex-col">{children}</div>
       </main>
     </>

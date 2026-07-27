@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { signOut } from "next-auth/react";
 
 type NavItem = {
   label: string;
@@ -14,10 +13,9 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Dashboard", href: "/teacher/dashboard", icon: "dashboard" },
   { label: "Question Bank", href: "/teacher/question-bank", icon: "database" },
   { label: "Evaluations", href: "/teacher/evaluations", icon: "rate_review" },
-  { label: "Support", href: "/teacher/support", icon: "help" },
 ];
 
-export function TeacherSidebar({ name, roleLabel }: { name: string; roleLabel: string }) {
+export function TeacherSidebar() {
   const pathname = usePathname();
 
   return (
@@ -46,34 +44,6 @@ export function TeacherSidebar({ name, roleLabel }: { name: string; roleLabel: s
           );
         })}
       </nav>
-
-      <div className="mt-auto space-y-xs">
-        <span
-          title="Coming soon"
-          className="flex items-center gap-sm text-outline-variant rounded-lg px-4 py-3 cursor-not-allowed"
-        >
-          <span className="material-symbols-outlined">settings</span>
-          <span className="font-label-md text-label-md">Settings</span>
-        </span>
-
-        <button
-          onClick={() => signOut({ callbackUrl: "/login" })}
-          className="w-full flex items-center gap-sm text-on-surface-variant hover:bg-surface-container-high rounded-lg px-4 py-3 transition-colors"
-        >
-          <span className="material-symbols-outlined">logout</span>
-          <span className="font-label-md text-label-md">Sign Out</span>
-        </button>
-
-        <div className="flex items-center gap-sm pt-md border-t border-outline-variant">
-          <div className="w-10 h-10 rounded-full overflow-hidden bg-surface-container-high flex items-center justify-center text-on-surface-variant font-bold">
-            {name.charAt(0).toUpperCase()}
-          </div>
-          <div className="flex flex-col overflow-hidden">
-            <p className="font-label-md text-on-surface font-bold truncate">{name}</p>
-            <p className="font-label-sm text-on-surface-variant">{roleLabel}</p>
-          </div>
-        </div>
-      </div>
     </aside>
   );
 }
