@@ -2,6 +2,7 @@ import type { NextAuthConfig } from "next-auth";
 
 const PROTECTED_PREFIXES = ["/dashboard", "/exams", "/exam", "/results", "/study", "/courses"];
 const ADMIN_PREFIXES = ["/admin"];
+const TEACHER_PREFIXES = ["/teacher"];
 
 // Edge-safe config: no Prisma adapter, no Credentials provider (both need
 // Node.js APIs). This is the only part of the auth config that middleware
@@ -21,6 +22,14 @@ export const authConfig = {
       if (isAdminRoute) {
         // Role is already on the decoded JWT, so this needs no DB call.
         return auth?.user?.role === "ADMIN";
+      }
+
+      const isTeacherRoute = TEACHER_PREFIXES.some(
+        (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`)
+      );
+      if (isTeacherRoute) {
+        // Admins can also view teacher-facing pages; students cannot.
+        return auth?.user?.role === "TEACHER" || auth?.user?.role === "ADMIN";
       }
 
       const isProtected = PROTECTED_PREFIXES.some(

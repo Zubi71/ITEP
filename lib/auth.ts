@@ -27,13 +27,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const isValid = await bcrypt.compare(password, user.passwordHash);
         if (!isValid) return null;
 
-        // Suspended accounts can't sign in at all.
-        if (user.status === "INACTIVE") return null;
-
-        // An admin-created account becomes active on its first successful login.
-        if (user.status === "PENDING") {
-          await prisma.user.update({ where: { id: user.id }, data: { status: "ACTIVE" } });
-        }
+        // Suspended accounts, and accounts still awaiting admin approval
+        // (e.g. a self-signed-up teacher), can't sign in yet.
+        if (user.status === "INACTIVE" || user.status === "PENDING") return null;
 
         return {
           id: user.id,

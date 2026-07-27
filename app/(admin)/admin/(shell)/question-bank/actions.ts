@@ -3,13 +3,20 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/admin-auth";
+import { requireStaff } from "@/lib/staff-auth";
 import type { QuestionType } from "@/app/generated/prisma/client";
 
 const CHOICE_LABELS = ["A", "B", "C", "D"];
 
+// Shared by both the Admin and Teacher consoles — both roles can author
+// questions, so every list page that renders needs revalidating.
+function revalidateQuestionBankLists() {
+  revalidatePath("/admin/question-bank");
+  revalidatePath("/teacher/question-bank");
+}
+
 export async function createQuestion(formData: FormData) {
-  const session = await requireAdmin();
+  const session = await requireStaff();
 
   const sectionId = formData.get("sectionId");
   const prompt = formData.get("prompt");
@@ -62,11 +69,11 @@ export async function createQuestion(formData: FormData) {
     },
   });
 
-  revalidatePath("/admin/question-bank");
+  revalidateQuestionBankLists();
 }
 
-export async function updateQuestion(questionId: string, formData: FormData) {
-  const session = await requireAdmin();
+export async function updateQuestion(questionId: string, redirectTo: string, formData: FormData) {
+  const session = await requireStaff();
 
   const prompt = formData.get("prompt");
   const hint = formData.get("hint");
@@ -101,6 +108,6 @@ export async function updateQuestion(questionId: string, formData: FormData) {
     }
   }
 
-  revalidatePath("/admin/question-bank");
-  redirect("/admin/question-bank");
+  revalidateQuestionBankLists();
+  redirect(redirectTo);
 }

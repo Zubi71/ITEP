@@ -9,7 +9,7 @@ const TYPE_LABEL: Record<string, string> = {
   SPEAKING: "Speaking",
 };
 
-export default async function EditQuestionPage({
+export default async function TeacherEditQuestionPage({
   params,
 }: {
   params: Promise<{ questionId: string }>;
@@ -25,13 +25,13 @@ export default async function EditQuestionPage({
     notFound();
   }
 
-  const boundUpdate = updateQuestion.bind(null, question.id, "/admin/question-bank");
+  const boundUpdate = updateQuestion.bind(null, question.id, "/teacher/question-bank");
   const correctIndex = question.choices.findIndex((c) => c.isCorrect);
 
   return (
     <div className="p-margin-desktop flex flex-col gap-lg max-w-3xl mx-auto w-full">
       <div>
-        <Link href="/admin/question-bank" className="font-label-sm text-label-sm text-primary hover:underline">
+        <Link href="/teacher/question-bank" className="font-label-sm text-label-sm text-primary hover:underline">
           ← Back to Question Bank
         </Link>
         <h1 className="font-headline-lg text-headline-lg text-primary font-bold mt-xs">Edit Question</h1>
@@ -95,7 +95,7 @@ export default async function EditQuestionPage({
           <p className="font-body-sm text-body-sm text-on-surface-variant italic">
             {question.type === "SPEAKING"
               ? "Speaking questions are answered as typed text (no audio recording in this exam)."
-              : "Students answer with free-text; an admin grades the response in the Evaluation Queue."}
+              : "Students answer with free-text; a teacher or admin grades the response in the Evaluation Queue."}
           </p>
         )}
 
@@ -107,7 +107,7 @@ export default async function EditQuestionPage({
             Save Changes
           </button>
           <Link
-            href="/admin/question-bank"
+            href="/teacher/question-bank"
             className="px-6 py-2.5 rounded-lg border border-outline-variant text-on-surface-variant font-label-md text-label-md"
           >
             Cancel

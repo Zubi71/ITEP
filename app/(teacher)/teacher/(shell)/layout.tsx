@@ -1,0 +1,18 @@
+import { auth } from "@/lib/auth";
+import { TeacherSidebar } from "@/components/teacher/TeacherSidebar";
+import { TeacherTopNav } from "@/components/teacher/TeacherTopNav";
+
+export default async function TeacherShellLayout({ children }: { children: React.ReactNode }) {
+  const session = await auth();
+  const roleLabel = session?.user?.role === "ADMIN" ? "Admin" : "Teacher";
+
+  return (
+    <>
+      <TeacherSidebar name={session?.user?.name ?? session?.user?.email ?? "Teacher"} roleLabel={roleLabel} />
+      <main className="md:ml-64 min-h-screen flex flex-col flex-1">
+        <TeacherTopNav />
+        <div className="mt-20 flex-1 flex flex-col">{children}</div>
+      </main>
+    </>
+  );
+}

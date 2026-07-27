@@ -2,9 +2,10 @@
 
 import { useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn, getSession } from "next-auth/react";
 
 type Mode = "signin" | "signup";
+type SignupRole = "STUDENT" | "TEACHER";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -12,15 +13,24 @@ export default function LoginPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [signupRole, setSignupRole] = useState<SignupRole>("STUDENT");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const isSignup = mode === "signup";
 
+  function switchMode(next: Mode) {
+    setMode(next);
+    setError(null);
+    setSuccessMessage(null);
+  }
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setError(null);
+    setSuccessMessage(null);
     setLoading(true);
 
     try {
@@ -28,12 +38,22 @@ export default function LoginPage() {
         const res = await fetch("/api/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, email, password }),
+          body: JSON.stringify({ name, email, password, role: signupRole }),
         });
+        const body = await res.json().catch(() => ({}));
         if (!res.ok) {
-          const body = await res.json().catch(() => ({}));
           setError(body.error ?? "Could not create your account.");
           setLoading(false);
+          return;
+        }
+
+        if (body.pendingApproval) {
+          setLoading(false);
+          setPassword("");
+          switchMode("signin");
+          setSuccessMessage(
+            "Your teacher account has been created. An admin needs to approve it before you can sign in."
+          );
           return;
         }
       }
@@ -50,7 +70,15 @@ export default function LoginPage() {
         return;
       }
 
-      router.push("/dashboard");
+      const session = await getSession();
+      const destination =
+        session?.user?.role === "ADMIN"
+          ? "/admin/dashboard"
+          : session?.user?.role === "TEACHER"
+            ? "/teacher/dashboard"
+            : "/dashboard";
+
+      router.push(destination);
       router.refresh();
     } catch {
       setError("Something went wrong. Please try again.");
@@ -130,7 +158,7 @@ export default function LoginPage() {
           <div className="flex gap-md mb-lg border-b border-outline-variant">
             <button
               type="button"
-              onClick={() => setMode("signin")}
+              onClick={() => switchMode("signin")}
               className={`pb-sm font-label-md text-label-md transition-all ${
                 !isSignup
                   ? "text-primary border-b-2 border-secondary"
@@ -141,7 +169,7 @@ export default function LoginPage() {
             </button>
             <button
               type="button"
-              onClick={() => setMode("signup")}
+              onClick={() => switchMode("signup")}
               className={`pb-sm font-label-md text-label-md transition-all ${
                 isSignup
                   ? "text-primary border-b-2 border-secondary"
@@ -198,6 +226,41 @@ export default function LoginPage() {
                   placeholder="Alex Johnson"
                   className="w-full px-md py-sm bg-white border border-outline-variant rounded-lg font-body-md text-body-md transition-all placeholder:text-outline-variant focus:outline-none focus:ring-2 focus:ring-primary-container"
                 />
+              </div>
+            )}
+
+            {isSignup && (
+              <div className="flex flex-col gap-xs">
+                <label className="font-label-md text-label-md text-on-surface">I am signing up as a…</label>
+                <div className="grid grid-cols-2 gap-sm">
+                  <button
+                    type="button"
+                    onClick={() => setSignupRole("STUDENT")}
+                    className={`px-md py-sm rounded-lg border font-label-md text-label-md transition-all ${
+                      signupRole === "STUDENT"
+                        ? "border-primary bg-primary-container/40 text-primary font-bold"
+                        : "border-outline-variant text-on-surface-variant hover:border-primary-fixed"
+                    }`}
+                  >
+                    Student
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setSignupRole("TEACHER")}
+                    className={`px-md py-sm rounded-lg border font-label-md text-label-md transition-all ${
+                      signupRole === "TEACHER"
+                        ? "border-primary bg-primary-container/40 text-primary font-bold"
+                        : "border-outline-variant text-on-surface-variant hover:border-primary-fixed"
+                    }`}
+                  >
+                    Teacher
+                  </button>
+                </div>
+                {signupRole === "TEACHER" && (
+                  <p className="font-body-sm text-body-sm text-on-surface-variant italic">
+                    Teacher accounts require admin approval before you can sign in.
+                  </p>
+                )}
               </div>
             )}
 
@@ -264,6 +327,12 @@ export default function LoginPage() {
                   Remember me for 30 days
                 </label>
               </div>
+            )}
+
+            {successMessage && (
+              <p className="font-body-sm text-body-sm text-success bg-success/10 rounded-lg px-md py-sm" role="status">
+                {successMessage}
+              </p>
             )}
 
             {error && (

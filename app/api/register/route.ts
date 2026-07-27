@@ -7,6 +7,7 @@ const registerSchema = z.object({
   name: z.string().min(1).max(120),
   email: z.string().email(),
   password: z.string().min(8).max(200),
+  role: z.enum(["STUDENT", "TEACHER"]).default("STUDENT"),
 });
 
 export async function POST(request: Request) {
@@ -17,7 +18,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid input." }, { status: 400 });
   }
 
-  const { name, email, password } = parsed.data;
+  const { name, email, password, role } = parsed.data;
 
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
@@ -25,11 +26,20 @@ export async function POST(request: Request) {
   }
 
   const passwordHash = await bcrypt.hash(password, 10);
-  const studentId = String(Math.floor(10000 + Math.random() * 90000));
+  const studentId = role === "STUDENT" ? String(Math.floor(10000 + Math.random() * 90000)) : null;
 
   await prisma.user.create({
-    data: { name, email, passwordHash, studentId },
+    data: {
+      name,
+      email,
+      passwordHash,
+      studentId,
+      role,
+      // Teacher self-signups need admin approval before they can log in;
+      // students get instant access, matching the existing product flow.
+      status: role === "TEACHER" ? "PENDING" : "ACTIVE",
+    },
   });
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, pendingApproval: role === "TEACHER" });
 }
