@@ -32,6 +32,12 @@ Implemented and working end-to-end:
 - No app code changes were needed beyond the datasource/adapter swap (`lib/prisma.ts`, `prisma/seed.ts`) — Prisma's query API abstracted the rest.
 - Deployment itself (Vercel or otherwise) is still not set up — this project also isn't a git repo yet. That remains a separate step whenever you're ready to go live.
 
+## Milestone 5: Deployment + Public Landing Page
+
+- The project is now a git repo, pushed to GitHub, and **deployed live on Vercel** (Postgres via Supabase, `DATABASE_URL`/`AUTH_SECRET` set as Vercel env vars). `package.json`'s `build` script runs `prisma migrate deploy` before `next build` so schema changes auto-apply on every deploy; `postinstall` runs `prisma generate` since the generated client isn't committed to git.
+- `/` is now the real public marketing landing page (screen 05) instead of an immediate redirect — hero, stats, exam categories, features, testimonials, pricing (Free tier and "Contact Sales" are real/functional; the paid "Professional" tier is a "Coming Soon" placeholder since there's no subscription billing), and FAQ. The nav CTA swaps to "Go to Dashboard" automatically when signed in.
+- Local AI-tooling directories (`.claude/`, `.agents/`, `.windsurf/`, `skills-lock.json` — auto-installed Prisma reference bundles, not app code) are gitignored and not part of the repo.
+
 ## Stack
 
 - Next.js 16 (App Router, TypeScript), Tailwind CSS v4 (legacy JS config loaded via `@config` in `app/globals.css` — see the note in `tailwind.config.ts` about avoiding `max-w-{xs,sm,md,lg,xl}`, which collide with our custom spacing scale)
@@ -52,8 +58,7 @@ Demo login: `alex@itep.test` / `Password123!`
 
 ## Deferred to Phase 2
 
-Not built yet — reference designs still live in `stitch-export/`:
+Not built yet:
 
-- Public marketing landing page (`stitch-export/05-itep-center-landing-page`)
 - Real Stripe payments for the course marketplace (currently mocked, see Milestone 2 above)
-- Actual deployment (Vercel or otherwise) — the app now runs on production-grade Postgres and is on GitHub, but isn't hosted anywhere public yet
+- A real paid subscription tier (the landing page's "Professional" plan is a placeholder)

@@ -1,7 +1,8 @@
 import type { Config } from "tailwindcss";
 
 // Design tokens ported verbatim from the Stitch (stitch.withgoogle.com) exports
-// in stitch-export/ — all 9 screens shared this exact token set.
+// in stitch-export/ — all screens shared this exact token set, except the
+// landing page (05) which additionally introduced "brand-accent".
 export default {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   darkMode: "class",
@@ -61,6 +62,7 @@ export default {
         "inverse-on-surface": "#eff1f5",
         "on-tertiary": "#ffffff",
         "on-primary-fixed-variant": "#32476c",
+        "brand-accent": "#E8871E",
       },
       borderRadius: {
         DEFAULT: "0.25rem",
