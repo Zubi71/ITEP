@@ -34,7 +34,7 @@ export function Sidebar({
         <h1 className="font-headline-md text-headline-md font-bold text-primary">iTEP Center</h1>
       </div>
 
-      <nav className="flex-1 space-y-xs">
+      <nav className="flex-1 min-h-0 overflow-y-auto custom-scrollbar space-y-xs">
         {NAV_ITEMS.map((item) => {
           if (!item.href) {
             return (
