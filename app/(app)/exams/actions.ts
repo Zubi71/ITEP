@@ -16,6 +16,9 @@ export async function startExam(formData: FormData) {
   }
 
   const exam = await prisma.exam.findUniqueOrThrow({ where: { id: examId } });
+  if (exam.status !== "LIVE") {
+    throw new Error("This exam is not currently available.");
+  }
 
   // Reuse an in-progress attempt for this exam if one already exists, so
   // clicking "Start Exam" twice doesn't orphan an abandoned attempt.

@@ -8,7 +8,7 @@ export default async function ExamsPage() {
   const userId = session!.user.id;
 
   const [exams, inProgressAttempts, pastAttempts] = await Promise.all([
-    prisma.exam.findMany({ orderBy: { createdAt: "asc" } }),
+    prisma.exam.findMany({ where: { status: "LIVE" }, orderBy: { createdAt: "asc" } }),
     prisma.attempt.findMany({ where: { userId, status: "IN_PROGRESS" } }),
     prisma.attempt.findMany({
       where: { userId, status: "SUBMITTED" },

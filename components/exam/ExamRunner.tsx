@@ -3,7 +3,7 @@
 import { useCallback, useState } from "react";
 import { ExamTimer } from "@/components/exam/ExamTimer";
 import { QuestionGrid } from "@/components/exam/QuestionGrid";
-import { saveAnswer, setCurrentIndex, submitAttempt, toggleFlag } from "@/app/exam/[attemptId]/actions";
+import { saveAnswer, saveTextAnswer, setCurrentIndex, submitAttempt, toggleFlag } from "@/app/exam/[attemptId]/actions";
 
 export type QuestionVM = {
   id: string;
@@ -11,8 +11,10 @@ export type QuestionVM = {
   hint: string | null;
   passage: string | null;
   sectionTitle: string;
+  type: "MULTIPLE_CHOICE" | "WRITING" | "SPEAKING";
   choices: { id: string; label: string; text: string }[];
   selectedChoiceId: string | null;
+  responseText: string | null;
   flagged: boolean;
 };
 
@@ -35,6 +37,9 @@ export function ExamRunner({
   const [answers, setAnswers] = useState<Record<string, string | null>>(() =>
     Object.fromEntries(questions.map((q) => [q.id, q.selectedChoiceId]))
   );
+  const [textAnswers, setTextAnswers] = useState<Record<string, string>>(() =>
+    Object.fromEntries(questions.map((q) => [q.id, q.responseText ?? ""]))
+  );
   const [flags, setFlags] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(questions.map((q) => [q.id, q.flagged]))
   );
@@ -42,20 +47,31 @@ export function ExamRunner({
 
   const current = questions[currentIndex];
 
+  const flushTextAnswer = useCallback(() => {
+    if (current.type !== "MULTIPLE_CHOICE") {
+      saveTextAnswer(attemptId, current.id, textAnswers[current.id] ?? "").catch(() => {});
+    }
+  }, [attemptId, current, textAnswers]);
+
   const goTo = useCallback(
     (index: number) => {
       if (index < 0 || index >= questions.length) return;
+      flushTextAnswer();
       setIndex(index);
       // Fired immediately (not deferred via startTransition) to keep the
       // save-vs-reload race window as tight as possible.
       setCurrentIndex(attemptId, index).catch(() => {});
     },
-    [attemptId, questions.length]
+    [attemptId, questions.length, flushTextAnswer]
   );
 
   function handleSelectChoice(choiceId: string) {
     setAnswers((prev) => ({ ...prev, [current.id]: choiceId }));
     saveAnswer(attemptId, current.id, choiceId).catch(() => {});
+  }
+
+  function handleTextChange(value: string) {
+    setTextAnswers((prev) => ({ ...prev, [current.id]: value }));
   }
 
   function handleToggleFlag() {
@@ -65,12 +81,14 @@ export function ExamRunner({
 
   const handleSubmit = useCallback(() => {
     if (submitting) return;
+    flushTextAnswer();
     setSubmitting(true);
     submitAttempt(attemptId).catch(() => setSubmitting(false));
-  }, [attemptId, submitting]);
+  }, [attemptId, submitting, flushTextAnswer]);
 
   const gridItems = questions.map((q) => ({
-    answered: answers[q.id] != null,
+    answered:
+      q.type === "MULTIPLE_CHOICE" ? answers[q.id] != null : (textAnswers[q.id] ?? "").trim().length > 0,
     flagged: flags[q.id] ?? false,
   }));
 
@@ -135,35 +153,54 @@ export function ExamRunner({
               <div className="flex-1 overflow-y-auto custom-scrollbar p-lg">
                 <div className="max-w-2xl mx-auto">
                   <p className="font-body-lg text-body-lg font-semibold text-primary mb-lg">{current.prompt}</p>
-                  <div className="space-y-sm">
-                    {current.choices.map((choice) => {
-                      const selected = answers[current.id] === choice.id;
-                      return (
-                        <label
-                          key={choice.id}
-                          className={`group flex items-start gap-md p-md rounded-lg border cursor-pointer transition-all ${
-                            selected
-                              ? "border-primary bg-primary-fixed/30"
-                              : "border-outline-variant hover:border-primary-fixed hover:bg-surface-container"
-                          }`}
-                        >
-                          <input
-                            type="radio"
-                            name={current.id}
-                            className="mt-1 w-5 h-5 text-primary border-outline-variant focus:ring-primary"
-                            checked={selected}
-                            onChange={() => handleSelectChoice(choice.id)}
-                          />
-                          <div>
-                            <span className="font-label-md text-label-md font-bold text-primary block mb-xs">
-                              {choice.label}
-                            </span>
-                            <span className="font-body-md text-body-md text-on-surface-variant">{choice.text}</span>
-                          </div>
-                        </label>
-                      );
-                    })}
-                  </div>
+                  {current.type === "MULTIPLE_CHOICE" ? (
+                    <div className="space-y-sm">
+                      {current.choices.map((choice) => {
+                        const selected = answers[current.id] === choice.id;
+                        return (
+                          <label
+                            key={choice.id}
+                            className={`group flex items-start gap-md p-md rounded-lg border cursor-pointer transition-all ${
+                              selected
+                                ? "border-primary bg-primary-fixed/30"
+                                : "border-outline-variant hover:border-primary-fixed hover:bg-surface-container"
+                            }`}
+                          >
+                            <input
+                              type="radio"
+                              name={current.id}
+                              className="mt-1 w-5 h-5 text-primary border-outline-variant focus:ring-primary"
+                              checked={selected}
+                              onChange={() => handleSelectChoice(choice.id)}
+                            />
+                            <div>
+                              <span className="font-label-md text-label-md font-bold text-primary block mb-xs">
+                                {choice.label}
+                              </span>
+                              <span className="font-body-md text-body-md text-on-surface-variant">{choice.text}</span>
+                            </div>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div>
+                      {current.type === "SPEAKING" && (
+                        <p className="font-body-sm text-body-sm text-outline italic mb-sm">
+                          Speaking response — type what you would say (no audio recording in this exam).
+                        </p>
+                      )}
+                      <textarea
+                        key={current.id}
+                        defaultValue={textAnswers[current.id] ?? ""}
+                        onChange={(e) => handleTextChange(e.target.value)}
+                        onBlur={flushTextAnswer}
+                        rows={10}
+                        placeholder="Type your response here…"
+                        className="w-full rounded-lg border border-outline-variant p-md font-body-md text-body-md text-on-surface focus:outline-none focus:ring-2 focus:ring-primary resize-y"
+                      />
+                    </div>
+                  )}
                   {current.hint && (
                     <div className="mt-xl pt-lg border-t border-outline-variant">
                       <div className="flex items-center gap-sm text-outline mb-md">

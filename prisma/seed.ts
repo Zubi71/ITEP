@@ -190,6 +190,18 @@ async function main() {
   });
   console.log("Seeded user:", user.email);
 
+  const admin = await prisma.user.upsert({
+    where: { email: "admin@itep.test" },
+    update: { role: "ADMIN" },
+    create: {
+      email: "admin@itep.test",
+      name: "Admin Sarah",
+      passwordHash,
+      role: "ADMIN",
+    },
+  });
+  console.log("Seeded admin:", admin.email);
+
   const examData: {
     title: string;
     description: string;
@@ -278,6 +290,144 @@ async function main() {
     });
     createdExams.push({ id: created.id, title: created.title });
     console.log("Seeded exam:", created.title);
+  }
+
+  // Mixed exam (Grammar MCQ + a Writing prompt) — exercises the blended
+  // MCQ/subjective scoring path and the human-grading pipeline end to end.
+  const comboGrammarQuestions: SeedQuestion[] = [
+    {
+      prompt: "Choose the correct word: She ___ to the store yesterday.",
+      choices: [
+        ["go", false],
+        ["went", true],
+        ["goes", false],
+        ["gone", false],
+      ],
+    },
+    {
+      prompt: "Select the correctly punctuated sentence.",
+      choices: [
+        ["Their going to be late.", false],
+        ["They're going to be late.", true],
+        ["There going to be late.", false],
+        ["Theyre going to be late.", false],
+      ],
+    },
+    {
+      prompt: "Choose the correct comparative: 'This essay is ___ than my last one.'",
+      choices: [
+        ["more clear", true],
+        ["clearer", true],
+        ["clearest", false],
+        ["clear", false],
+      ],
+    },
+  ];
+
+  let comboExam = await prisma.exam.findFirst({ where: { title: "iTEP Writing & Grammar Combo" } });
+  if (!comboExam) {
+    comboExam = await prisma.exam.create({
+      data: {
+        title: "iTEP Writing & Grammar Combo",
+        description: "A blended checkpoint combining grammar multiple-choice with a human-graded writing prompt.",
+        category: "WRITING",
+        durationMin: 40,
+        difficulty: "Moderate",
+        status: "LIVE",
+        sections: {
+          create: [
+            {
+              title: "Grammar Checkpoint",
+              skill: "GRAMMAR",
+              order: 0,
+              questions: {
+                create: comboGrammarQuestions.map((q, qIndex) => ({
+                  prompt: q.prompt,
+                  hint: q.hint,
+                  order: qIndex,
+                  type: "MULTIPLE_CHOICE",
+                  choices: {
+                    create: q.choices.map(([text, isCorrect], cIndex) => ({
+                      label: String.fromCharCode(65 + cIndex),
+                      text,
+                      isCorrect,
+                    })),
+                  },
+                })),
+              },
+            },
+            {
+              title: "Writing Prompt",
+              skill: "WRITING",
+              order: 1,
+              questions: {
+                create: [
+                  {
+                    prompt:
+                      "Describe a challenge you faced while learning a new skill, and explain how you overcame it. Write at least 4 sentences.",
+                    order: 0,
+                    type: "WRITING",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
+    });
+    console.log("Seeded exam:", comboExam.title);
+  }
+
+  // Pre-seed a PENDING_REVIEW attempt so the Evaluation Queue is never empty at rest.
+  const comboFull = await prisma.exam.findFirst({
+    where: { id: comboExam.id },
+    include: { sections: { include: { questions: { include: { choices: true } } } } },
+  });
+
+  if (comboFull) {
+    const existingPending = await prisma.attempt.findFirst({
+      where: { userId: user.id, examId: comboFull.id, status: "PENDING_REVIEW" },
+    });
+
+    if (!existingPending) {
+      const grammarSection = comboFull.sections.find((s) => s.skill === "GRAMMAR")!;
+      const writingSection = comboFull.sections.find((s) => s.skill === "WRITING")!;
+
+      const startedAt = new Date(Date.now() - 2 * 24 * 60 * 60 * 1000);
+      const submittedAt = new Date(startedAt.getTime() + 22 * 60 * 1000);
+
+      const attempt = await prisma.attempt.create({
+        data: {
+          userId: user.id,
+          examId: comboFull.id,
+          status: "PENDING_REVIEW",
+          startedAt,
+          submittedAt,
+          timeLimitSec: comboFull.durationMin * 60,
+          currentIndex: grammarSection.questions.length + writingSection.questions.length - 1,
+        },
+      });
+
+      for (const q of grammarSection.questions) {
+        const correct = q.choices.find((c) => c.isCorrect)!;
+        await prisma.answer.create({
+          data: { attemptId: attempt.id, questionId: q.id, choiceId: correct.id, isCorrect: true },
+        });
+      }
+
+      for (const q of writingSection.questions) {
+        await prisma.answer.create({
+          data: {
+            attemptId: attempt.id,
+            questionId: q.id,
+            responseText:
+              "Learning to play the guitar was difficult for me at first because my fingers hurt and I could not switch chords quickly. I overcame this by practicing for fifteen minutes every day and watching online tutorials. After two months, I could play several songs smoothly.",
+          },
+        });
+      }
+
+      console.log("Seeded PENDING_REVIEW attempt for", comboFull.title);
+    }
   }
 
   const studyMaterialCount = await prisma.studyMaterial.count();

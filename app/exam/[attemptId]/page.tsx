@@ -45,20 +45,25 @@ export default async function ExamPage({
     redirect(`/results/${attempt.id}`);
   }
 
-  const answerByQuestion = new Map(attempt.answers.map((a) => [a.questionId, a.choiceId]));
+  const answerByQuestion = new Map(attempt.answers.map((a) => [a.questionId, a]));
   const flaggedQuestions = new Set(attempt.flags.map((f) => f.questionId));
 
   const questions: QuestionVM[] = attempt.exam.sections.flatMap((section) =>
-    section.questions.map((q) => ({
-      id: q.id,
-      prompt: q.prompt,
-      hint: q.hint,
-      passage: section.passage,
-      sectionTitle: section.title,
-      choices: q.choices.map((c) => ({ id: c.id, label: c.label, text: c.text })),
-      selectedChoiceId: answerByQuestion.get(q.id) ?? null,
-      flagged: flaggedQuestions.has(q.id),
-    }))
+    section.questions.map((q) => {
+      const answer = answerByQuestion.get(q.id);
+      return {
+        id: q.id,
+        prompt: q.prompt,
+        hint: q.hint,
+        passage: section.passage,
+        sectionTitle: section.title,
+        type: q.type,
+        choices: q.choices.map((c) => ({ id: c.id, label: c.label, text: c.text })),
+        selectedChoiceId: answer?.choiceId ?? null,
+        responseText: answer?.responseText ?? null,
+        flagged: flaggedQuestions.has(q.id),
+      };
+    })
   );
 
   const remainingSec = computeRemainingSeconds(attempt.startedAt, attempt.timeLimitSec);

@@ -27,11 +27,20 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const isValid = await bcrypt.compare(password, user.passwordHash);
         if (!isValid) return null;
 
+        // Suspended accounts can't sign in at all.
+        if (user.status === "INACTIVE") return null;
+
+        // An admin-created account becomes active on its first successful login.
+        if (user.status === "PENDING") {
+          await prisma.user.update({ where: { id: user.id }, data: { status: "ACTIVE" } });
+        }
+
         return {
           id: user.id,
           email: user.email,
           name: user.name,
           image: user.image,
+          role: user.role,
         };
       },
     }),
@@ -41,14 +50,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.role = user.role;
       }
       return token;
     },
-    async session({ session, token }) {
-      if (session.user && typeof token.id === "string") {
-        session.user.id = token.id;
-      }
-      return session;
-    },
+    // session callback (id/role copying) is inherited from authConfig.callbacks
+    // via the spread above — it must stay in the shared edge-safe config so
+    // proxy.ts's separate NextAuth(authConfig) instance sees it too.
   },
 });

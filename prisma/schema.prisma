@@ -9,20 +9,36 @@ datasource db {
 
 // --- Auth (NextAuth Prisma adapter shape) ---
 
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
+}
+
 model User {
-  id            String        @id @default(cuid())
-  name          String?
-  email         String        @unique
-  emailVerified DateTime?
-  image         String?
-  passwordHash  String?
-  studentId     String?       @unique
-  accounts      Account[]
-  sessions      Session[]
-  attempts      Attempt[]
-  purchases     Purchase[]
-  certificates  Certificate[]
-  createdAt     DateTime      @default(now())
+  id              String        @id @default(cuid())
+  name            String?
+  email           String        @unique
+  emailVerified   DateTime?
+  image           String?
+  passwordHash    String?
+  studentId       String?       @unique
+  role            Role          @default(STUDENT)
+  status          UserStatus    @default(ACTIVE)
+  accounts        Account[]
+  sessions        Session[]
+  attempts        Attempt[]
+  purchases       Purchase[]
+  certificates    Certificate[]
+  gradedAnswers   Answer[]      @relation("GradedAnswers")
+  editedQuestions Question[]    @relation("QuestionEditor")
+  createdAt       DateTime      @default(now())
 }
 
 model Account {
@@ -71,8 +87,15 @@ enum Skill {
 
 enum AttemptStatus {
   IN_PROGRESS
+  PENDING_REVIEW
   SUBMITTED
   EXPIRED
+}
+
+enum ExamStatus {
+  DRAFT
+  LIVE
+  ARCHIVED
 }
 
 model Exam {
@@ -82,6 +105,7 @@ model Exam {
   category     Skill?
   durationMin  Int
   difficulty   String
+  status       ExamStatus    @default(LIVE)
   sections     Section[]
   attempts     Attempt[]
   certificates Certificate[]
@@ -99,15 +123,25 @@ model Section {
   questions Question[]
 }
 
+enum QuestionType {
+  MULTIPLE_CHOICE
+  WRITING
+  SPEAKING
+}
+
 model Question {
-  id        String   @id @default(cuid())
-  sectionId String
-  section   Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
-  prompt    String
-  order     Int
-  hint      String?
-  choices   Choice[]
-  answers   Answer[]
+  id             String       @id @default(cuid())
+  sectionId      String
+  section        Section      @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  prompt         String
+  order          Int
+  hint           String?
+  type           QuestionType @default(MULTIPLE_CHOICE)
+  choices        Choice[]
+  answers        Answer[]
+  updatedAt      DateTime     @default(now()) @updatedAt
+  lastEditedById String?
+  lastEditedBy   User?        @relation("QuestionEditor", fields: [lastEditedById], references: [id])
 }
 
 model Choice {
@@ -132,21 +166,27 @@ model Attempt {
   timeLimitSec Int
   currentIndex Int           @default(0)
   scorePct     Float?
+  gradedAt     DateTime?
   answers      Answer[]
   flags        AttemptFlag[]
   certificate  Certificate?
 }
 
 model Answer {
-  id         String   @id @default(cuid())
-  attemptId  String
-  attempt    Attempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
-  questionId String
-  question   Question @relation(fields: [questionId], references: [id])
-  choiceId   String?
-  choice     Choice?  @relation(fields: [choiceId], references: [id])
-  isCorrect  Boolean?
-  answeredAt DateTime @updatedAt
+  id                 String    @id @default(cuid())
+  attemptId          String
+  attempt            Attempt   @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  questionId         String
+  question           Question  @relation(fields: [questionId], references: [id])
+  choiceId           String?
+  choice             Choice?   @relation(fields: [choiceId], references: [id])
+  isCorrect          Boolean?
+  responseText       String?
+  subjectiveScorePct Float?
+  gradedById         String?
+  gradedBy           User?     @relation("GradedAnswers", fields: [gradedById], references: [id])
+  gradedAt           DateTime?
+  answeredAt         DateTime  @updatedAt
 
   @@unique([attemptId, questionId])
 }

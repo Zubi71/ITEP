@@ -49,18 +49,24 @@ export async function getSkillBreakdown(attemptId: string) {
     },
   });
 
-  const bySkill = new Map<string, { correct: number; total: number }>();
+  // Per-question contribution generalizes to any question type: MCQ
+  // contributes 100/0 for correct/incorrect (identical to the old
+  // correct-count-based math), subjective questions contribute their graded
+  // percentage directly (0 if somehow still ungraded when this runs).
+  const bySkill = new Map<string, { sum: number; total: number }>();
   for (const answer of answers) {
     const skill = answer.question.section.skill;
-    const entry = bySkill.get(skill) ?? { correct: 0, total: 0 };
+    const entry = bySkill.get(skill) ?? { sum: 0, total: 0 };
+    const contribution =
+      answer.question.type === "MULTIPLE_CHOICE" ? (answer.isCorrect ? 100 : 0) : (answer.subjectiveScorePct ?? 0);
+    entry.sum += contribution;
     entry.total += 1;
-    if (answer.isCorrect) entry.correct += 1;
     bySkill.set(skill, entry);
   }
 
-  return Array.from(bySkill.entries()).map(([skill, { correct, total }]) => ({
+  return Array.from(bySkill.entries()).map(([skill, { sum, total }]) => ({
     skill,
-    scorePct: total > 0 ? (correct / total) * 100 : 0,
+    scorePct: total > 0 ? sum / total : 0,
   }));
 }
 

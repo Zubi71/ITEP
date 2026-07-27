@@ -46,6 +46,25 @@ export default async function ResultsPage({
     redirect(`/exam/${attempt.id}`);
   }
 
+  if (attempt.status === "PENDING_REVIEW") {
+    return (
+      <div className="p-margin-desktop flex flex-col items-center justify-center gap-lg max-w-2xl mx-auto w-full min-h-[60vh] text-center">
+        <span className="material-symbols-outlined text-6xl text-secondary">hourglass_top</span>
+        <h1 className="font-display-lg text-display-lg text-primary tracking-tight">Under Review</h1>
+        <p className="font-body-lg text-body-lg text-on-surface-variant">
+          Your Writing/Speaking responses for {attempt.exam.title} are being graded by an instructor. Your
+          final score and certificate (if you pass) will appear here once grading is complete.
+        </p>
+        <Link
+          href="/exams"
+          className="px-8 py-3 bg-primary text-on-primary rounded-lg font-label-md text-label-md font-bold hover:opacity-90 transition-all"
+        >
+          Back to Exams
+        </Link>
+      </div>
+    );
+  }
+
   const scorePct = attempt.scorePct ?? 0;
   const passed = scorePct >= PASS_THRESHOLD;
   const breakdown = await getSkillBreakdown(attempt.id);
@@ -148,20 +167,40 @@ export default async function ResultsPage({
                 <p className="font-body-md text-body-md font-semibold text-primary mb-sm">
                   {i + 1}. {a.question.prompt}
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-sm font-body-sm text-body-sm">
-                  <p className={a.isCorrect ? "text-success" : "text-error"}>
-                    Your answer: {a.choice ? `${a.choice.label}. ${a.choice.text}` : "Not answered"}
-                  </p>
-                  {!a.isCorrect && (
-                    <p className="text-success">
-                      Correct answer:{" "}
-                      {(() => {
-                        const correct = a.question.choices.find((c) => c.isCorrect);
-                        return correct ? `${correct.label}. ${correct.text}` : "—";
-                      })()}
+                {a.question.type === "MULTIPLE_CHOICE" ? (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-sm font-body-sm text-body-sm">
+                    <p className={a.isCorrect ? "text-success" : "text-error"}>
+                      Your answer: {a.choice ? `${a.choice.label}. ${a.choice.text}` : "Not answered"}
                     </p>
-                  )}
-                </div>
+                    {!a.isCorrect && (
+                      <p className="text-success">
+                        Correct answer:{" "}
+                        {(() => {
+                          const correct = a.question.choices.find((c) => c.isCorrect);
+                          return correct ? `${correct.label}. ${correct.text}` : "—";
+                        })()}
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="space-y-sm font-body-sm text-body-sm">
+                    <p className="text-on-surface-variant whitespace-pre-line">
+                      {a.responseText?.trim() ? a.responseText : "Not answered"}
+                    </p>
+                    <p
+                      className={
+                        a.subjectiveScorePct != null && a.subjectiveScorePct >= PASS_THRESHOLD
+                          ? "text-success font-bold"
+                          : a.subjectiveScorePct != null
+                            ? "text-error font-bold"
+                            : "text-outline italic"
+                      }
+                    >
+                      Grader score:{" "}
+                      {a.subjectiveScorePct != null ? `${a.subjectiveScorePct.toFixed(0)}%` : "Awaiting review"}
+                    </p>
+                  </div>
+                )}
               </div>
             ))}
           </div>
