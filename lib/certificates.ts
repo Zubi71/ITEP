@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/app/generated/prisma/client";
-import { PASS_THRESHOLD } from "@/lib/stats";
+import { getPassThreshold } from "@/lib/settings";
 
 export function levelLabel(scorePct: number) {
   if (scorePct >= 90) return "Level C1 — Advanced";
@@ -39,7 +39,8 @@ export async function issueCertificateIfPassed(attemptId: string) {
     include: { user: true, exam: true },
   });
 
-  if ((attempt.scorePct ?? 0) < PASS_THRESHOLD) return null;
+  const passThreshold = await getPassThreshold();
+  if ((attempt.scorePct ?? 0) < passThreshold) return null;
 
   const existing = await prisma.certificate.findUnique({ where: { attemptId } });
   if (existing) return existing;

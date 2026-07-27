@@ -41,9 +41,9 @@ export async function createUser(formData: FormData) {
   }
 
   // Admin-created accounts get a random temporary password (never shared via
-  // this UI) and start PENDING — they'd need a real invite/reset-password
-  // flow to actually log in, which is out of scope this milestone. This
-  // still exercises the real PENDING -> ACTIVE-on-first-login transition.
+  // this UI) and start PENDING — an admin must flip status to ACTIVE before
+  // this account can log in at all; a real invite/reset-password flow is out
+  // of scope this milestone.
   const tempPassword = Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2);
   const passwordHash = await bcrypt.hash(tempPassword, 10);
 
@@ -57,5 +57,17 @@ export async function createUser(formData: FormData) {
     },
   });
 
+  revalidatePath("/admin/users");
+}
+
+export async function deleteUser(targetUserId: string) {
+  const session = await requireAdmin();
+  if (targetUserId === session.user.id) {
+    throw new Error("You cannot delete your own account.");
+  }
+  // Cascades per schema: their exam attempts, answers, certificates, and
+  // purchases go with them. Questions they edited / answers they graded are
+  // kept, just detached (lastEditedBy/gradedBy become null).
+  await prisma.user.delete({ where: { id: targetUserId } });
   revalidatePath("/admin/users");
 }

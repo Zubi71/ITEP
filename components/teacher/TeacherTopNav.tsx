@@ -6,6 +6,7 @@ const TITLES: { prefix: string; title: string }[] = [
   { prefix: "/teacher/dashboard", title: "Teacher Dashboard" },
   { prefix: "/teacher/question-bank", title: "Question Bank" },
   { prefix: "/teacher/evaluations", title: "Evaluation Queue" },
+  { prefix: "/teacher/support", title: "Support" },
 ];
 
 export function TeacherTopNav() {

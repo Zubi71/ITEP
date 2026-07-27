@@ -15,8 +15,8 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Users", href: "/admin/users", icon: "group" },
   { label: "Question Bank", href: "/admin/question-bank", icon: "database" },
   { label: "Exams", href: "/admin/exams", icon: "quiz" },
-  { label: "Courses", icon: "school" },
-  { label: "Payments", icon: "payments" },
+  { label: "Courses", href: "/admin/courses", icon: "school" },
+  { label: "Payments", href: "/admin/payments", icon: "payments" },
   { label: "Evaluations", href: "/admin/evaluations", icon: "rate_review" },
 ];
 
@@ -67,20 +67,28 @@ export function AdminSidebar({ adminName }: { adminName: string }) {
       </nav>
 
       <div className="mt-auto space-y-xs">
-        <span
-          title="Coming soon"
-          className="flex items-center gap-sm text-outline-variant rounded-lg px-4 py-3 cursor-not-allowed"
+        <Link
+          href="/admin/settings"
+          className={`flex items-center gap-sm rounded-lg px-4 py-3 transition-colors ${
+            pathname.startsWith("/admin/settings")
+              ? "bg-primary-fixed text-on-primary-fixed"
+              : "text-on-surface-variant hover:bg-surface-container-high"
+          }`}
         >
           <span className="material-symbols-outlined">settings</span>
           <span className="font-label-md text-label-md">Settings</span>
-        </span>
-        <span
-          title="Coming soon"
-          className="flex items-center gap-sm text-outline-variant rounded-lg px-4 py-3 cursor-not-allowed"
+        </Link>
+        <Link
+          href="/admin/support"
+          className={`flex items-center gap-sm rounded-lg px-4 py-3 transition-colors ${
+            pathname.startsWith("/admin/support")
+              ? "bg-primary-fixed text-on-primary-fixed"
+              : "text-on-surface-variant hover:bg-surface-container-high"
+          }`}
         >
           <span className="material-symbols-outlined">help</span>
           <span className="font-label-md text-label-md">Support</span>
-        </span>
+        </Link>
 
         <button
           onClick={() => signOut({ callbackUrl: "/login" })}

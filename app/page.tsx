@@ -84,6 +84,12 @@ function StarRow() {
 export default async function LandingPage() {
   const session = await auth();
   const isSignedIn = Boolean(session?.user);
+  const dashboardHref =
+    session?.user.role === "ADMIN"
+      ? "/admin/dashboard"
+      : session?.user.role === "TEACHER"
+        ? "/teacher/dashboard"
+        : "/dashboard";
 
   return (
     <main className="bg-background text-on-background antialiased overflow-x-hidden flex-1 flex flex-col">
@@ -115,7 +121,7 @@ export default async function LandingPage() {
         <div className="flex items-center gap-md">
           {isSignedIn ? (
             <Link
-              href="/dashboard"
+              href={dashboardHref}
               className="bg-primary text-on-primary px-6 py-2.5 rounded-full font-label-md text-label-md font-bold hover:scale-[1.02] active:scale-95 transition-all shadow-sm"
             >
               Go to Dashboard

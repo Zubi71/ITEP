@@ -8,6 +8,10 @@ const TITLES: { prefix: string; title: string }[] = [
   { prefix: "/admin/question-bank", title: "Question Bank" },
   { prefix: "/admin/exams", title: "Exam Management" },
   { prefix: "/admin/evaluations", title: "Evaluation Queue" },
+  { prefix: "/admin/courses", title: "Course Management" },
+  { prefix: "/admin/payments", title: "Payments" },
+  { prefix: "/admin/settings", title: "Settings" },
+  { prefix: "/admin/support", title: "Support Inbox" },
 ];
 
 export function AdminTopNav() {

@@ -2,7 +2,8 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { getSkillBreakdown, PASS_THRESHOLD } from "@/lib/stats";
+import { getSkillBreakdown } from "@/lib/stats";
+import { getPassThreshold } from "@/lib/settings";
 import { ScoreGauge } from "@/components/results/ScoreGauge";
 
 const SKILL_ICON: Record<string, string> = {
@@ -66,7 +67,8 @@ export default async function ResultsPage({
   }
 
   const scorePct = attempt.scorePct ?? 0;
-  const passed = scorePct >= PASS_THRESHOLD;
+  const passThreshold = await getPassThreshold();
+  const passed = scorePct >= passThreshold;
   const breakdown = await getSkillBreakdown(attempt.id);
   const certificate = passed
     ? await prisma.certificate.findUnique({ where: { attemptId: attempt.id } })
@@ -189,7 +191,7 @@ export default async function ResultsPage({
                     </p>
                     <p
                       className={
-                        a.subjectiveScorePct != null && a.subjectiveScorePct >= PASS_THRESHOLD
+                        a.subjectiveScorePct != null && a.subjectiveScorePct >= passThreshold
                           ? "text-success font-bold"
                           : a.subjectiveScorePct != null
                             ? "text-error font-bold"

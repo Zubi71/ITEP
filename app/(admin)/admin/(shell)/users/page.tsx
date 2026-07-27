@@ -136,6 +136,7 @@ export default async function AdminUsersPage({
                   <td className="px-4 py-4">
                     <UserRoleStatusControls
                       userId={u.id}
+                      userLabel={u.name ?? u.email}
                       role={u.role}
                       status={u.status}
                       isSelf={u.id === session?.user.id}

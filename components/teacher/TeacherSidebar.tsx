@@ -14,6 +14,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Dashboard", href: "/teacher/dashboard", icon: "dashboard" },
   { label: "Question Bank", href: "/teacher/question-bank", icon: "database" },
   { label: "Evaluations", href: "/teacher/evaluations", icon: "rate_review" },
+  { label: "Support", href: "/teacher/support", icon: "help" },
 ];
 
 export function TeacherSidebar({ name, roleLabel }: { name: string; roleLabel: string }) {

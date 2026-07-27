@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { getDashboardStats } from "@/lib/stats";
 import { StatCard } from "@/components/dashboard/StatCard";
@@ -6,6 +7,12 @@ import { PerformanceChart } from "@/components/dashboard/PerformanceChart";
 
 export default async function DashboardPage() {
   const session = await auth();
+
+  // /dashboard is the student home — staff land on their own consoles even
+  // if an old link/bookmark points here.
+  if (session!.user.role === "ADMIN") redirect("/admin/dashboard");
+  if (session!.user.role === "TEACHER") redirect("/teacher/dashboard");
+
   const userId = session!.user.id;
   const stats = await getDashboardStats(userId);
   const firstName = (session!.user.name ?? "there").split(" ")[0];

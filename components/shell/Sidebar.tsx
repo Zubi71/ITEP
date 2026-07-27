@@ -16,7 +16,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Exams", href: "/exams", icon: "assignment" },
   { label: "Study", href: "/study", icon: "menu_book" },
   { label: "Performance", icon: "monitoring" },
-  { label: "Support", icon: "help" },
+  { label: "Support", href: "/support", icon: "help" },
 ];
 
 export function Sidebar({

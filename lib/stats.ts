@@ -1,13 +1,15 @@
 import { prisma } from "@/lib/prisma";
-
-const PASS_THRESHOLD = 70;
+import { getPassThreshold } from "@/lib/settings";
 
 export async function getDashboardStats(userId: string) {
-  const submitted = await prisma.attempt.findMany({
-    where: { userId, status: "SUBMITTED" },
-    include: { exam: true },
-    orderBy: { submittedAt: "asc" },
-  });
+  const [submitted, passThreshold] = await Promise.all([
+    prisma.attempt.findMany({
+      where: { userId, status: "SUBMITTED" },
+      include: { exam: true },
+      orderBy: { submittedAt: "asc" },
+    }),
+    getPassThreshold(),
+  ]);
 
   const scores = submitted.map((a) => a.scorePct ?? 0);
   const avgScore = scores.length > 0 ? scores.reduce((sum, s) => sum + s, 0) / scores.length : 0;
@@ -22,7 +24,7 @@ export async function getDashboardStats(userId: string) {
       examTitle: a.exam.title,
       date: a.submittedAt,
       scorePct: a.scorePct ?? 0,
-      passed: (a.scorePct ?? 0) >= PASS_THRESHOLD,
+      passed: (a.scorePct ?? 0) >= passThreshold,
     }));
 
   const trend = submitted.map((a) => ({
@@ -69,5 +71,3 @@ export async function getSkillBreakdown(attemptId: string) {
     scorePct: total > 0 ? sum / total : 0,
   }));
 }
-
-export { PASS_THRESHOLD };

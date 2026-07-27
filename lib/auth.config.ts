@@ -1,6 +1,6 @@
 import type { NextAuthConfig } from "next-auth";
 
-const PROTECTED_PREFIXES = ["/dashboard", "/exams", "/exam", "/results", "/study", "/courses"];
+const PROTECTED_PREFIXES = ["/dashboard", "/exams", "/exam", "/results", "/study", "/courses", "/support"];
 const ADMIN_PREFIXES = ["/admin"];
 const TEACHER_PREFIXES = ["/teacher"];
 

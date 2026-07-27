@@ -38,6 +38,8 @@ model User {
   certificates    Certificate[]
   gradedAnswers   Answer[]      @relation("GradedAnswers")
   editedQuestions Question[]    @relation("QuestionEditor")
+  supportTickets  SupportTicket[] @relation("TicketAuthor")
+  resolvedTickets SupportTicket[] @relation("TicketResolver")
   createdAt       DateTime      @default(now())
 }
 
@@ -272,4 +274,32 @@ model StudyMaterial {
   type        String
   url         String?
   createdAt   DateTime @default(now())
+}
+
+// --- Platform settings & support ---
+
+// Singleton row (id is always "singleton") — avoids a separate migration
+// every time a new configurable value is needed.
+model SystemSetting {
+  id            String   @id @default("singleton")
+  passThreshold Float    @default(70)
+  updatedAt     DateTime @updatedAt
+}
+
+enum SupportTicketStatus {
+  OPEN
+  RESOLVED
+}
+
+model SupportTicket {
+  id           String              @id @default(cuid())
+  userId       String
+  user         User                @relation("TicketAuthor", fields: [userId], references: [id], onDelete: Cascade)
+  subject      String
+  message      String
+  status       SupportTicketStatus @default(OPEN)
+  createdAt    DateTime            @default(now())
+  resolvedAt   DateTime?
+  resolvedById String?
+  resolvedBy   User?               @relation("TicketResolver", fields: [resolvedById], references: [id])
 }
