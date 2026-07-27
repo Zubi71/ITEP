@@ -18,7 +18,7 @@ export function MyTicketsList({ tickets }: { tickets: TicketVM[] }) {
           <div className="flex items-center justify-between mb-xs">
             <p className="font-body-md text-body-md font-semibold text-primary">{t.subject}</p>
             <span
-              className={`inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase ${
+              className={`inline-block whitespace-nowrap flex-none px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase ${
                 t.status === "RESOLVED" ? "bg-success/10 text-success" : "bg-warning/10 text-warning"
               }`}
             >

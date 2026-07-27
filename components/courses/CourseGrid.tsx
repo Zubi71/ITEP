@@ -93,7 +93,7 @@ export function CourseGrid({ courses }: { courses: CourseCard[] }) {
             <div className="pt-md flex items-center justify-between">
               {course.owned ? (
                 <>
-                  <span className="inline-flex items-center gap-xs px-2.5 py-1 rounded-full text-xs font-bold bg-success/10 text-success uppercase">
+                  <span className="inline-flex items-center gap-xs whitespace-nowrap px-2.5 py-1 rounded-full text-xs font-bold bg-success/10 text-success uppercase">
                     <span className="material-symbols-outlined text-[16px]">check_circle</span>
                     Enrolled
                   </span>

@@ -73,7 +73,7 @@ export default async function TeacherEvaluationsPage({
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
         <div className="bg-white p-md rounded-xl border border-outline-variant/30 shadow-sm">
           <p className="text-body-sm text-on-surface-variant">Pending</p>
           <p className="text-3xl font-bold text-primary mt-xs">{counts.pending}</p>

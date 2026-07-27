@@ -52,7 +52,7 @@ export default async function AdminUsersPage({
         <AddUserForm />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
         <div className="bg-white p-md rounded-xl border border-outline-variant/30 shadow-sm">
           <p className="text-body-sm text-on-surface-variant">Total Users</p>
           <p className="text-3xl font-bold text-primary mt-xs">{totalUsers}</p>
@@ -128,7 +128,7 @@ export default async function AdminUsersPage({
                   <td className="px-4 py-4 font-body-sm text-on-surface-variant">
                     {u.createdAt.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                     <span
-                      className={`ml-sm inline-block px-2 py-0.5 rounded-full text-[11px] font-bold uppercase ${STATUS_BADGE[u.status]}`}
+                      className={`ml-sm inline-block whitespace-nowrap px-2 py-0.5 rounded-full text-[11px] font-bold uppercase ${STATUS_BADGE[u.status]}`}
                     >
                       {u.status}
                     </span>

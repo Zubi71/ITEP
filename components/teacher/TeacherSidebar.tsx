@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useMobileNav } from "@/components/shared/MobileNavContext";
 
 type NavItem = {
   label: string;
@@ -17,33 +18,47 @@ const NAV_ITEMS: NavItem[] = [
 
 export function TeacherSidebar() {
   const pathname = usePathname();
+  const { open, close } = useMobileNav();
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest border-r border-outline-variant flex flex-col p-md z-50 hidden md:flex">
-      <div className="mb-lg">
-        <h1 className="font-headline-md text-headline-md font-bold text-primary">iTEP Center</h1>
-        <p className="font-body-sm text-on-surface-variant">Teacher Console</p>
-      </div>
+    <>
+      {open && <div onClick={close} className="fixed inset-0 bg-black/40 z-40 md:hidden" />}
+      <aside
+        className={`fixed left-0 top-0 h-full w-64 bg-surface-container-lowest border-r border-outline-variant flex flex-col p-md z-50 transition-transform duration-200 md:translate-x-0 ${
+          open ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="mb-lg flex items-center justify-between">
+          <div>
+            <h1 className="font-headline-md text-headline-md font-bold text-primary">iTEP Center</h1>
+            <p className="font-body-sm text-on-surface-variant">Teacher Console</p>
+          </div>
+          <button onClick={close} className="md:hidden text-on-surface-variant p-1">
+            <span className="material-symbols-outlined">close</span>
+          </button>
+        </div>
 
-      <nav className="flex-1 min-h-0 overflow-y-auto custom-scrollbar space-y-xs">
-        {NAV_ITEMS.map((item) => {
-          const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
-          return (
-            <Link
-              key={item.label}
-              href={item.href!}
-              className={`flex items-center gap-sm rounded-lg px-4 py-3 transition-colors ${
-                active
-                  ? "bg-primary-fixed text-on-primary-fixed"
-                  : "text-on-surface-variant hover:bg-surface-container-high"
-              }`}
-            >
-              <span className="material-symbols-outlined">{item.icon}</span>
-              <span className="font-label-md text-label-md">{item.label}</span>
-            </Link>
-          );
-        })}
-      </nav>
-    </aside>
+        <nav className="flex-1 min-h-0 overflow-y-auto custom-scrollbar space-y-xs">
+          {NAV_ITEMS.map((item) => {
+            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            return (
+              <Link
+                key={item.label}
+                href={item.href!}
+                onClick={close}
+                className={`flex items-center gap-sm rounded-lg px-4 py-3 transition-colors ${
+                  active
+                    ? "bg-primary-fixed text-on-primary-fixed"
+                    : "text-on-surface-variant hover:bg-surface-container-high"
+                }`}
+              >
+                <span className="material-symbols-outlined">{item.icon}</span>
+                <span className="font-label-md text-label-md">{item.label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+      </aside>
+    </>
   );
 }

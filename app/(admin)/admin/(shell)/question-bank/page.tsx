@@ -105,7 +105,7 @@ export default async function QuestionBankPage({
                     <div className="text-body-sm text-on-surface-variant">{q.section.title}</div>
                   </td>
                   <td className="px-4 py-4">
-                    <span className={`inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase ${TYPE_BADGE[q.type]}`}>
+                    <span className={`inline-block whitespace-nowrap px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase ${TYPE_BADGE[q.type]}`}>
                       {TYPE_LABEL[q.type]}
                     </span>
                   </td>

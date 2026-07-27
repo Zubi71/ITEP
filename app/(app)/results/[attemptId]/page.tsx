@@ -91,7 +91,7 @@ export default async function ResultsPage({
           </p>
         </div>
         <span
-          className={`px-4 py-2 rounded-full font-label-md text-label-md font-bold uppercase ${
+          className={`px-4 py-2 rounded-full font-label-md text-label-md font-bold uppercase whitespace-nowrap flex-none ${
             passed ? "bg-success/10 text-success" : "bg-error/10 text-error"
           }`}
         >

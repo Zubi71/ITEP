@@ -38,7 +38,7 @@ export default async function AdminExamsPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
         <div className="bg-white p-md rounded-xl border border-outline-variant/30 shadow-sm">
           <p className="text-body-sm text-on-surface-variant">Live Exams</p>
           <p className="text-3xl font-bold text-primary mt-xs">{liveCount}</p>
@@ -83,7 +83,7 @@ export default async function AdminExamsPage() {
                     </td>
                     <td className="px-4 py-4">
                       <span
-                        className={`inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase ${STATUS_BADGE[exam.status]}`}
+                        className={`inline-block whitespace-nowrap px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase ${STATUS_BADGE[exam.status]}`}
                       >
                         {exam.status}
                       </span>

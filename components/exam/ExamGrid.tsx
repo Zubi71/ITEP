@@ -65,7 +65,7 @@ export function ExamGrid({ exams }: { exams: ExamCard[] }) {
           >
             {exam.inProgressAttemptId && (
               <div className="absolute top-0 right-0 p-4">
-                <span className="bg-warning/20 text-warning px-3 py-1 rounded-full font-label-sm text-label-sm font-bold uppercase tracking-wider">
+                <span className="bg-warning/20 text-warning whitespace-nowrap px-3 py-1 rounded-full font-label-sm text-label-sm font-bold uppercase tracking-wider">
                   In Progress
                 </span>
               </div>

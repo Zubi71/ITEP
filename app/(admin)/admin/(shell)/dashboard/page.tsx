@@ -52,7 +52,7 @@ export default async function AdminDashboardPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
         <div className="bg-white p-md rounded-xl shadow-sm border border-outline-variant/30">
           <p className="font-label-md text-label-md text-on-surface-variant">Total Students</p>
           <p className="font-display-lg text-display-lg text-primary">{totalStudents}</p>

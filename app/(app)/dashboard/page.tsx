@@ -84,7 +84,7 @@ export default async function DashboardPage() {
                     </td>
                     <td className="py-4">
                       <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase ${
+                        className={`inline-flex items-center whitespace-nowrap px-2.5 py-0.5 rounded-full text-xs font-bold uppercase ${
                           r.passed ? "bg-success/10 text-success" : "bg-error/10 text-error"
                         }`}
                       >

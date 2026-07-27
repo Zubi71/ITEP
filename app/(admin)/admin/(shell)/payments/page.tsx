@@ -94,7 +94,7 @@ export default async function AdminPaymentsPage({
                   <td className="px-4 py-4 font-body-sm">{p.course.title}</td>
                   <td className="px-4 py-4 font-body-sm">{formatCents(p.amountCents)}</td>
                   <td className="px-4 py-4">
-                    <span className={`inline-block px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase ${STATUS_BADGE[p.status]}`}>
+                    <span className={`inline-block whitespace-nowrap px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase ${STATUS_BADGE[p.status]}`}>
                       {p.status}
                     </span>
                   </td>

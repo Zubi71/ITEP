@@ -412,7 +412,7 @@ export default async function LandingPage() {
                 </Link>
               </div>
               <div className="bg-white p-lg rounded-xl border-2 border-brand-accent flex flex-col h-full relative shadow-xl md:scale-105 z-10">
-                <div className="absolute top-0 right-margin-desktop -translate-y-1/2 bg-brand-accent text-white px-4 py-1 rounded-full text-label-sm font-bold">
+                <div className="absolute top-0 right-4 md:right-margin-desktop -translate-y-1/2 bg-brand-accent text-white px-4 py-1 rounded-full text-label-sm font-bold whitespace-nowrap">
                   MOST POPULAR
                 </div>
                 <div className="mb-lg">
