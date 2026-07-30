@@ -12,6 +12,7 @@ declare module "next-auth" {
 
   interface User {
     role?: SessionRole;
+    status?: "ACTIVE" | "INACTIVE" | "PENDING";
   }
 }
 

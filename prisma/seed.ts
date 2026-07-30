@@ -202,6 +202,19 @@ async function main() {
   });
   console.log("Seeded admin:", admin.email);
 
+  const teacher = await prisma.user.upsert({
+    where: { email: "teacher@itep.test" },
+    update: { role: "TEACHER", status: "ACTIVE" },
+    create: {
+      email: "teacher@itep.test",
+      name: "Sam Whitfield",
+      passwordHash,
+      role: "TEACHER",
+      status: "ACTIVE",
+    },
+  });
+  console.log("Seeded teacher:", teacher.email);
+
   const examData: {
     title: string;
     description: string;
