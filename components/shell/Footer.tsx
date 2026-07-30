@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export function Footer() {
   return (
     <footer className="mt-auto w-full py-xl px-margin-desktop bg-primary text-on-primary flex flex-col md:flex-row justify-between items-center gap-md">
@@ -8,17 +10,20 @@ export function Footer() {
         </p>
       </div>
       <div className="flex flex-wrap justify-center gap-lg">
+        <Link className="font-body-sm text-on-primary/80 hover:text-on-primary transition-colors" href="/free-tests">
+          Free Tests
+        </Link>
+        <Link className="font-body-sm text-on-primary/80 hover:text-on-primary transition-colors" href="/partner-schools">
+          Partner Schools
+        </Link>
+        <Link className="font-body-sm text-on-primary/80 hover:text-on-primary transition-colors" href="/existing-clients">
+          Existing Clients
+        </Link>
         <a className="font-body-sm text-on-primary/80 hover:text-on-primary transition-colors" href="#">
           Privacy Policy
         </a>
         <a className="font-body-sm text-on-primary/80 hover:text-on-primary transition-colors" href="#">
           Terms of Service
-        </a>
-        <a className="font-body-sm text-on-primary/80 hover:text-on-primary transition-colors" href="#">
-          Accessibility
-        </a>
-        <a className="font-body-sm text-on-primary/80 hover:text-on-primary transition-colors" href="#">
-          Global Centers
         </a>
       </div>
     </footer>

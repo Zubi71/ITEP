@@ -4,6 +4,8 @@ import { auth } from "@/lib/auth";
 import { getDashboardStats } from "@/lib/stats";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { PerformanceChart } from "@/components/dashboard/PerformanceChart";
+import { CefrLadder } from "@/components/shared/CefrLadder";
+import { cefrBand } from "@/lib/cefr";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -40,12 +42,29 @@ export default async function DashboardPage() {
         <StatCard icon="schedule" label="Hours Studied" value={stats.hoursStudied.toFixed(1)} />
       </section>
 
-      {/* Performance Chart */}
-      <section className="bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant/30">
-        <div className="flex items-center justify-between mb-lg">
-          <h3 className="font-headline-md text-headline-md font-bold text-primary">Performance Trends</h3>
+      {/* Performance Chart + Reported Band */}
+      <section className="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+        <div className="lg:col-span-2 bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant/30">
+          <div className="flex items-center justify-between mb-lg">
+            <h3 className="font-headline-md text-headline-md font-bold text-primary">Performance Trends</h3>
+          </div>
+          <PerformanceChart trend={stats.trend} />
         </div>
-        <PerformanceChart trend={stats.trend} />
+        <div className="bg-surface-container-lowest p-md rounded-xl shadow-sm border border-outline-variant/30">
+          <h3 className="font-headline-md text-headline-md font-bold text-primary mb-lg">Reported Band</h3>
+          {stats.examsCompleted > 0 ? (
+            <>
+              <p className="font-display-lg text-display-lg text-primary leading-none mb-md">
+                {cefrBand(stats.avgScore).code}
+              </p>
+              <CefrLadder scorePct={stats.avgScore} />
+            </>
+          ) : (
+            <p className="font-body-sm text-on-surface-variant">
+              Sit an examination to be placed on the CEFR scale.
+            </p>
+          )}
+        </div>
       </section>
 
       {/* Recent Exams */}

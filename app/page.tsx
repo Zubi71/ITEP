@@ -116,6 +116,12 @@ export default async function LandingPage() {
             >
               FAQ
             </a>
+            <Link
+              href="/free-tests"
+              className="font-label-md text-label-md text-on-surface-variant font-medium hover:text-primary transition-colors"
+            >
+              Free Tests
+            </Link>
           </div>
         </div>
         <div className="flex items-center gap-md">
@@ -168,15 +174,13 @@ export default async function LandingPage() {
                 >
                   Get Started Free
                 </Link>
-                <button
-                  type="button"
-                  disabled
-                  title="Coming soon"
-                  className="flex items-center gap-2 px-8 py-4 rounded-xl border border-outline font-label-md text-label-md font-bold opacity-60 cursor-not-allowed"
+                <Link
+                  href="/free-tests"
+                  className="flex items-center gap-2 px-8 py-4 rounded-xl border border-outline font-label-md text-label-md font-bold hover:bg-surface-container transition-all active:scale-95"
                 >
-                  <span className="material-symbols-outlined">play_circle</span>
-                  Watch Demo
-                </button>
+                  <span className="material-symbols-outlined">quiz</span>
+                  Try a Free Test
+                </Link>
               </div>
             </div>
             <div className="hidden lg:block relative h-[500px]">

@@ -1,4 +1,5 @@
 import { levelLabel } from "@/lib/certificates";
+import { CefrLadder } from "@/components/shared/CefrLadder";
 
 const RADIUS = 110;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
@@ -43,6 +44,9 @@ export function ScoreGauge({ scorePct }: { scorePct: number }) {
             {levelLabel(scorePct)}
           </span>
         </div>
+      </div>
+      <div className="w-full mt-lg">
+        <CefrLadder scorePct={scorePct} />
       </div>
     </div>
   );

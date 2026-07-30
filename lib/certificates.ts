@@ -1,13 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/app/generated/prisma/client";
 import { getPassThreshold } from "@/lib/settings";
+import { cefrBand } from "@/lib/cefr";
 
 export function levelLabel(scorePct: number) {
-  if (scorePct >= 90) return "Level C1 — Advanced";
-  if (scorePct >= 75) return "Level B2 — Upper-Intermediate";
-  if (scorePct >= 60) return "Level B1 — Intermediate";
-  if (scorePct >= 40) return "Level A2 — Elementary";
-  return "Level A1 — Beginner";
+  const band = cefrBand(scorePct);
+  return `Level ${band.code} — ${band.name}`;
 }
 
 // Excludes visually ambiguous characters (0/O, 1/I/L).

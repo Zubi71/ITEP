@@ -1,4 +1,5 @@
 import { PrintButton } from "@/components/certificate/PrintButton";
+import { CefrLadder } from "@/components/shared/CefrLadder";
 
 const SKILL_ICON: Record<string, string> = {
   GRAMMAR: "edit_note",
@@ -120,6 +121,11 @@ export function CertificateDisplay({
           </div>
         </div>
       </div>
+
+      <section className="bg-white p-lg rounded-xl shadow-sm border border-outline-variant/30 no-print">
+        <h4 className="font-headline-md text-headline-md text-primary mb-md">CEFR Band</h4>
+        <CefrLadder scorePct={certificate.scorePct} />
+      </section>
 
       {skillBreakdown.length > 0 && (
         <section className="bg-white p-lg rounded-xl shadow-sm border border-outline-variant/30 no-print">
